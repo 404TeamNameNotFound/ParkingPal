@@ -1,0 +1,53 @@
+<%= form_for(@parking_meter) do |f| %>
+  <% if @parking_meter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@parking_meter.errors.count, "error") %> prohibited this parking_meter from being saved:</h2>
+
+      <ul>
+      <% @parking_meter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :meter_id %><br>
+    <%= f.number_field :meter_id %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :max_time %><br>
+    <%= f.time_select :max_time %>
+  </div>
+  <div class="field">
+    <%= f.label :start_time %><br>
+    <%= f.time_select :start_time %>
+  </div>
+  <div class="field">
+    <%= f.label :end_time %><br>
+    <%= f.time_select :end_time %>
+  </div>
+  <div class="field">
+    <%= f.label :credit_card %><br>
+    <%= f.check_box :credit_card %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %><br>
+    <%= f.check_box :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :is_broken %><br>
+    <%= f.check_box :is_broken %>
+  </div>
+  <div class="field">
+    <%= f.label :is_occupied %><br>
+    <%= f.check_box :is_occupied %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

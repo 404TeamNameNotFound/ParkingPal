@@ -1,0 +1,29 @@
+<%= form_for(@lat_lon) do |f| %>
+  <% if @lat_lon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@lat_lon.errors.count, "error") %> prohibited this lat_lon from being saved:</h2>
+
+      <ul>
+      <% @lat_lon.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :lat %><br>
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :lon %><br>
+    <%= f.text_field :lon %>
+  </div>
+  <div class="field">
+    <%= f.label :parking_meter_id %><br>
+    <%= f.text_field :parking_meter_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

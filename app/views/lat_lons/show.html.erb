@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lat:</strong>
+  <%= @lat_lon.lat %>
+</p>
+
+<p>
+  <strong>Lon:</strong>
+  <%= @lat_lon.lon %>
+</p>
+
+<p>
+  <strong>Parking meter:</strong>
+  <%= @lat_lon.parking_meter %>
+</p>
+
+<%= link_to 'Edit', edit_lat_lon_path(@lat_lon) %> |
+<%= link_to 'Back', lat_lons_path %>
