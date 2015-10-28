@@ -21,8 +21,9 @@ module ParkingMetersHelper
 				when 'name'
 					temp_meter.name = node.text.to_i
 				when 'description'
+					print "Making description"
 					parse_description(node, temp_meter)
-				when 'point'
+				when 'Point'
 					parse_point(node, temp_meter)
 				end
 			end
@@ -34,11 +35,12 @@ module ParkingMetersHelper
 		array = node.text.split("<br>")
 		array.each do |a|
 			i = a.split(": ")
-			if i.first.eql? "Time Limit"
+			case i.first
+			when "Time Limit"
 				temp_meter.max_time = i.last.delete(" Hr").to_f
-			elsif i.first.eql? "Rate"
+			when "Rate"
 				temp_meter.price = i.last.delete("$").to_f
-			elsif i.first.eql? "Time in Effect"
+			when "Time in Effect"
 				times = i.last.split(' TO ')
 				if times.length >= 2
 					temp_meter.start_time = Time.parse(times.first)
@@ -50,7 +52,8 @@ module ParkingMetersHelper
 
 	def parse_point(node, temp_meter)
 		node.children.each do |coord|
-			if node.node_name.eql? 'coordinates'
+			if coord.node_name.eql? 'coordinates'
+				print "Making lat lon!"
 				lat_lon = LatLon.new
 				lat_lon.parking_meter = temp_meter
 				arr = coord.text.split(',')
