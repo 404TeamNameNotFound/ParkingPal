@@ -14,7 +14,6 @@ class ParkingMetersController < ApplicationController
     redirect_to parking_meters_url
   end
 
-
   # GET /parking_meters/1
   # GET /parking_meters/1.json
   def show

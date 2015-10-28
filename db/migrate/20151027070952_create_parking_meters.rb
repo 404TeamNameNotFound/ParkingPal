@@ -1,15 +1,13 @@
 class CreateParkingMeters < ActiveRecord::Migration
   def change
     create_table :parking_meters do |t|
-      t.integer :meter_id
+      t.integer :name
       t.float :price
-      t.time :max_time
+      t.float :max_time
       t.time :start_time
       t.time :end_time
-      t.boolean :credit_card
-      t.boolean :phone
-      t.boolean :is_broken
-      t.boolean :is_occupied
+      t.boolean :is_broken, :default => false
+      t.boolean :is_occupied, :default => false
 
       t.timestamps null: false
     end

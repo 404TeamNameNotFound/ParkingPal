@@ -1,3 +1,5 @@
 class LatLon < ActiveRecord::Base
-  belongs_to :parking_meter
+	validates :lat,:lon,  presence: true
+	validates :lat,:lon, numericality: true
+	belongs_to :parking_meter
 end
