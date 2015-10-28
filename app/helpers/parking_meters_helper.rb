@@ -61,4 +61,9 @@ module ParkingMetersHelper
 		end
 	end
 
+	def clear_database
+		ParkingMeter.delete_all
+		LatLon.delete_all
+	end
+
 end
