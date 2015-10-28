@@ -46,7 +46,16 @@ module ParkingMetersHelper
 	end
 
 	def parse_point(node, temp_meter)
-		#STUB!!!
+		node.children.each do |coord|
+			if node.node_name.eql? 'coordinates'
+				lat_lon = LatLon.new
+				lat_lon.parking_meter = temp_meter
+				arr = coord.text.split(',')
+				lat_lon.lat = BigDecimal(arr[0])
+				lat_lon.lon = BigDecimal(arr[1])
+				lat_lon.save
+			end
+		end
 	end
 
 end
