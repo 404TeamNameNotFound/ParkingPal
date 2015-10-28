@@ -28,7 +28,21 @@ module ParkingMetersHelper
 	end
 
 	def parse_description(node, temp_meter)
-		#STUB!!!
+		array = node.text.split("<br>")
+		arr.each do |a|
+			i = a.split(": ")
+			if i.first.eql? "Time Limit"
+				temp_meter.max_time = i.last.delete(" Hr").to_f
+			elsif i.first.eql? "Rate"
+				temp_meter.price = i.last.delete("$").to_f
+			elsif i.first.eql? "Time in Effect"
+				times = i.last.split(' TO ')
+				if times.length >= 2
+					temp_meter.start_time = Time.parse(times.first)
+					temp_meter.end_time = Time.parse(times.last)
+				end
+			end
+		end
 	end
 
 	def parse_point(node, temp_meter)
