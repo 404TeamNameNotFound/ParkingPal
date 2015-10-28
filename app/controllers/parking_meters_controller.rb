@@ -1,4 +1,5 @@
 class ParkingMetersController < ApplicationController
+  include ParkingMetersHelper
   before_action :set_parking_meter, only: [:show, :edit, :update, :destroy]
 
   # GET /parking_meters
@@ -6,6 +7,13 @@ class ParkingMetersController < ApplicationController
   def index
     @parking_meters = ParkingMeter.all
   end
+
+  def parse
+    parse_parking_meters
+    flash[:notice] = "Parking Meters updated"
+    redirect_to parking_meters_url
+  end
+
 
   # GET /parking_meters/1
   # GET /parking_meters/1.json

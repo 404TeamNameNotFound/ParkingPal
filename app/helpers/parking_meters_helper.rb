@@ -1,3 +1,6 @@
+require 'zip'
+require 'open-uri'
+
 module ParkingMetersHelper
 	
 	def parse_parking_meters
@@ -29,7 +32,7 @@ module ParkingMetersHelper
 
 	def parse_description(node, temp_meter)
 		array = node.text.split("<br>")
-		arr.each do |a|
+		array.each do |a|
 			i = a.split(": ")
 			if i.first.eql? "Time Limit"
 				temp_meter.max_time = i.last.delete(" Hr").to_f
