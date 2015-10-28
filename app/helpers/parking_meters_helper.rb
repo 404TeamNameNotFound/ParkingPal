@@ -1,5 +1,5 @@
 module ParkingMetersHelper
-
+	
 	def parse_parking_meters
 		url = 'http://data.vancouver.ca/download/kml/parking_meter_rates_and_time_limits.kmz'
 		zip_file = open(url)

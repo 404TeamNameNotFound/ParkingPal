@@ -10,8 +10,6 @@
       <th>Max time</th>
       <th>Start time</th>
       <th>End time</th>
-      <th>Credit card</th>
-      <th>Phone</th>
       <th>Is broken</th>
       <th>Is occupied</th>
       <th colspan="3"></th>
@@ -21,13 +19,11 @@
   <tbody>
     <% @parking_meters.each do |parking_meter| %>
       <tr>
-        <td><%= parking_meter.meter_id %></td>
+        <td><%= parking_meter.name %></td>
         <td><%= parking_meter.price %></td>
         <td><%= parking_meter.max_time %></td>
         <td><%= parking_meter.start_time %></td>
         <td><%= parking_meter.end_time %></td>
-        <td><%= parking_meter.credit_card %></td>
-        <td><%= parking_meter.phone %></td>
         <td><%= parking_meter.is_broken %></td>
         <td><%= parking_meter.is_occupied %></td>
         <td><%= link_to 'Show', parking_meter %></td>
