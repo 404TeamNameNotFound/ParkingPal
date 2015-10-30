@@ -18,6 +18,8 @@ class ParkingMetersController < ApplicationController
   # GET /parking_meters/1
   # GET /parking_meters/1.json
   def show
+    @parking_meter = ParkingMeter.find(params[:id])
+    render json: @parking_meter
   end
 
   # GET /parking_meters/new
