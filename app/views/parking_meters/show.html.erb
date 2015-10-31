@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Meter:</strong>
+  <%= @parking_meter.name%>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @parking_meter.price %>
+</p>
+
+<p>
+  <strong>Max time:</strong>
+  <%= @parking_meter.max_time %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @parking_meter.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @parking_meter.end_time %>
+</p>
+
+<p>
+  <strong>Is broken:</strong>
+  <%= @parking_meter.is_broken %>
+</p>
+
+<p>
+  <strong>Is occupied:</strong>
+  <%= @parking_meter.is_occupied %>
+</p>
+
+<%= link_to 'Edit', edit_parking_meter_path(@parking_meter) %> |
+<%= link_to 'Back', parking_meters_path %>

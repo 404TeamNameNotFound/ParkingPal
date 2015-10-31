@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  meter_id: 1
+  price: 1.5
+  max_time: 2015-10-27 00:09:52
+  start_time: 2015-10-27 00:09:52
+  end_time: 2015-10-27 00:09:52
+  credit_card: false
+  phone: false
+  is_broken: false
+  is_occupied: false
+
+two:
+  meter_id: 1
+  price: 1.5
+  max_time: 2015-10-27 00:09:52
+  start_time: 2015-10-27 00:09:52
+  end_time: 2015-10-27 00:09:52
+  credit_card: false
+  phone: false
+  is_broken: false
+  is_occupied: false
