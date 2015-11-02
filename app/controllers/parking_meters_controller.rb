@@ -30,6 +30,10 @@ class ParkingMetersController < ApplicationController
   # GET /parking_meters/1/edit
   def edit
   end
+  
+  # GET /edit
+  def edit_arbitrary
+  end
 
   # POST /parking_meters
   # POST /parking_meters.json
@@ -52,8 +56,8 @@ class ParkingMetersController < ApplicationController
   def update
     respond_to do |format|
       if @parking_meter.update(parking_meter_params)
-        format.html { redirect_to @parking_meter, notice: 'Parking meter was successfully updated.' }
-        format.json { render :show, status: :ok, location: @parking_meter }
+        format.html { render :show, status: :ok, location: @parking_meter }
+        # format.json { render :show, status: :ok, location: @parking_meter }
       else
         format.html { render :edit }
         format.json { render json: @parking_meter.errors, status: :unprocessable_entity }

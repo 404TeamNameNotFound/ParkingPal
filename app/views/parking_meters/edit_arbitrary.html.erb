@@ -1,0 +1,46 @@
+<%= javascript_include_tag "edit_arbitrary.js" %>
+
+<h1>Edit arbitrary parking meter</h1>
+
+<form>
+	<label for="meter-id">ID: </label>
+	<input type="number" id="meter-id"></input>
+</form>
+<button id="fetch">Fetch Parking Meter</button>
+<br>
+
+<%= form_tag('/update_meter', method: 'patch') do %>
+	<%= label_tag(:parking_meter_id, "ID:") %>
+	<br>
+	<%= number_field "parking_meter", "id" %>
+	<br>
+	<%= label_tag(:parking_meter_name, "Name:") %>
+	<br>
+	<%= number_field "parking_meter", "name" %>
+	<br>
+	<%= label_tag(:parking_meter_price, "Price:") %>
+	<br>
+	<%= text_field "parking_meter", "price" %>
+	<br>
+	<%= label_tag(:parking_meter_max_time, "Max time:") %>
+	<br>
+	<%= text_field "parking_meter", "max_time" %>
+	<br>
+	<%= label_tag(:parking_meter_start_time, "Start time:") %>
+	<br>
+	<%= time_field "parking_meter", "start_time" %>
+	<br>
+	<%= label_tag(:parking_meter_end_time, "End time:") %>
+	<br>
+	<%= time_field "parking_meter", "end_time" %>
+	<br>
+	<%= label_tag(:parking_meter_is_broken, "Is broken:") %>
+	<br>
+	<%= check_box "parking_meter", "is_broken" %>
+	<br>
+	<%= label_tag(:parking_meter_is_occupied, "Is occupied:") %>
+	<br>
+	<%= check_box "parking_meter", "is_occupied" %>
+<% end %>
+<br>
+<button id="submit">Submit</button>
