@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027070952) do
+ActiveRecord::Schema.define(version: 20151028091422) do
 
   create_table "lat_lons", force: :cascade do |t|
     t.decimal  "lat",              precision: 15, scale: 10, default: 0.0

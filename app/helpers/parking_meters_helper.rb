@@ -57,8 +57,8 @@ module ParkingMetersHelper
 				lat_lon = LatLon.new
 				lat_lon.parking_meter = temp_meter
 				arr = coord.text.split(',')
-				lat_lon.lat = BigDecimal(arr[0])
-				lat_lon.lon = BigDecimal(arr[1])
+				lat_lon.lat = BigDecimal(arr[1])
+				lat_lon.lon = BigDecimal(arr[0])
 				lat_lon.save
 			end
 		end
