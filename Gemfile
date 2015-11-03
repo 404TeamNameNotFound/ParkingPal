@@ -25,6 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'tzinfo-data'
 gem 'rubyzip'
 gem "nokogiri"
+gem 'activesupport-json_encoder'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
