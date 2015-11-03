@@ -1,0 +1,6 @@
+<h2>Meter Details</h2>
+<h4>Name: <%= meter.name %></h4>
+<h4>Price: <%= number_to_currency(meter.price) %> per Hr</h4>
+<h4>Max Time: <%= meter.max_time %> Hrs</h4>
+<h4>Time in Effect: <%= meter.start_time %> to <%= meter.end_time %></h4>
+<h4>Location: <%= meter.lat_lon.lat %>, <%= meter.lat_lon.lon %></h4>

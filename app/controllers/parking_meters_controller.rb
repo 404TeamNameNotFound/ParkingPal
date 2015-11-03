@@ -5,12 +5,12 @@ class ParkingMetersController < ApplicationController
   # GET /parking_meters
   # GET /parking_meters.json
   def index
-    @parking_meters = ParkingMeter.find(19767)
+    @parking_meters = ParkingMeter.find(200)
 
     @hash = Gmaps4rails.build_markers(@parking_meters) do |meter, marker|
       marker.lat meter.lat_lon.lat
       marker.lng meter.lat_lon.lon
-      marker.infowindow "hello"
+      marker.infowindow render_to_string(:partial => "infowindow", :locals => { :meter => meter})
     end
   end
 
