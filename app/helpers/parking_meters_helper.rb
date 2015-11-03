@@ -21,7 +21,6 @@ module ParkingMetersHelper
 				when 'name'
 					temp_meter.name = node.text.to_i
 				when 'description'
-					#print "Making description"
 					parse_description(node, temp_meter)
 				when 'Point'
 					parse_point(node, temp_meter)
@@ -53,7 +52,6 @@ module ParkingMetersHelper
 	def parse_point(node, temp_meter)
 		node.children.each do |coord|
 			if coord.node_name.eql? 'coordinates'
-				#print "Making lat lon!"
 				lat_lon = LatLon.new
 				lat_lon.parking_meter = temp_meter
 				arr = coord.text.split(',')
