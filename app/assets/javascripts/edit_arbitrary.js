@@ -2,12 +2,15 @@ $(function() {
 	$('#fetch').click(fetchMeter);
 	$('#submit').click(submit);
 
+	var coords;
+
 	function fetchMeter() {
 		var id = $('#meter-id').val();
 		$.getJSON('/parking_meters/' + id + '.json', updateForm);
 	}
 
 	function updateForm(data) {
+		coords = data.lat_lon;
 		var startTime = parseTime(data.start_time);
 		var endTime = parseTime(data.end_time);
 		$('#parking_meter_id').val(data.id);
@@ -27,6 +30,15 @@ $(function() {
 
 	function submit() {
 		var meterObject = createMeterObject();
+
+		var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+		$.ajaxSetup( {
+			beforeSend: function ( xhr ) {
+				xhr.setRequestHeader( 'X-CSRF-Token', token );
+			}
+		});
+
 		$.ajax({
 			data: meterObject,
 			method: 'PATCH',
@@ -44,7 +56,8 @@ $(function() {
 				start_time: toTime($('#parking_meter_start_time').val()),
 				end_time: toTime($('#parking_meter_end_time').val()),
 				is_broken: $('#parking_meter_is_broken').is(':checked'),
-				is_occupied: $('#parking_meter_is_occupied').is(':checked')
+				is_occupied: $('#parking_meter_is_occupied').is(':checked'),
+				lat_lon: coords
 			}
 		}
 	}
