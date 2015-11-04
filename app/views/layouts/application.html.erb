@@ -16,17 +16,24 @@
 
 </head>
 <body>
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">
-        ParkingPal
-      </a>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          ParkingPal
+        </a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="/update">Update</a>
+        </li>
+        <li>
+          <a href="/edit">Edit</a>
+        </li>
+      </ul>
     </div>
-  </div>
-</nav>
-<div class="container">
+  </nav>
+  <div class="container">
 
 <%= yield %>
 

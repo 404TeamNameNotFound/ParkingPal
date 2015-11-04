@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
-  get    'update'  => 'parking_meters#parse'
+  get 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'
   patch 'update_meter' => 'parking_meters#update'
 
