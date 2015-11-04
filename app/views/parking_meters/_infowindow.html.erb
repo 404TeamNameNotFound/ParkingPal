@@ -2,5 +2,5 @@
 <h4>Name: <%= meter.name %></h4>
 <h4>Price: <%= number_to_currency(meter.price) %> per Hr</h4>
 <h4>Max Time: <%= meter.max_time %> Hrs</h4>
-<h4>Time in Effect: <%= meter.start_time %> to <%= meter.end_time %></h4>
+<h4>Time in Effect: <%= if meter.start_time then meter.start_time.to_time.to_s(:time) end %> to <%= if meter.end_time then meter.end_time.to_time.to_s(:time) end %></h4>
 <h4>Location: <%= meter.lat_lon.lat %>, <%= meter.lat_lon.lon %></h4>
