@@ -5,7 +5,8 @@ class ParkingMetersController < ApplicationController
   # GET /parking_meters
   # GET /parking_meters.json
   def index
-    @parking_meters = ParkingMeter.find(39522)
+
+    @parking_meters = ParkingMeter.all
 
     @hash = Gmaps4rails.build_markers(@parking_meters) do |meter, marker|
       marker.lat meter.lat_lon.lat
