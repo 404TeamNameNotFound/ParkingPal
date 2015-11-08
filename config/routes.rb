@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   resources :parking_meters
   resources :lat_lons
   # The priority is based upon order of creation: first created -> highest priority.
@@ -9,6 +10,8 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+  get 'signup'  => 'users#new'
+  get '/login' => 'sessions#new'
 
   get 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'

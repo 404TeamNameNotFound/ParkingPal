@@ -35,6 +35,7 @@ gem 'activesupport-json_encoder'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   gem 'sqlite3', '1.3.9'
