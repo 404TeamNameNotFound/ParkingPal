@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   #   get 'products/:id' => 'catalog#view'
   get 'signup'  => 'users#new'
   get '/login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
 
   get 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'
