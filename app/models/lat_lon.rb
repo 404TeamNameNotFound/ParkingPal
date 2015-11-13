@@ -6,5 +6,5 @@ class LatLon < ActiveRecord::Base
 	def self.search(search)
 		where("parking_meter.name LIKE ?", "%{search}%")
 	end
-	
+
 end

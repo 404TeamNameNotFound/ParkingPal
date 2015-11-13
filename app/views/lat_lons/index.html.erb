@@ -29,3 +29,15 @@
 <br>
 
 <%= link_to 'New Lat lon', new_lat_lon_path %>
+
+<%= form_tag(lat_lons_path, :method => "get", id: "search-form") do %>
+<%= text_field_tag :search, params[:search], placeholder: "Search Parking Meter IDs" %>
+<%= submit_tag "Search" %>
+<% end %>
+
+<% if @lat_lons.present? %>
+<%= render @lat_lons %>
+<% else %>
+<p> There are no parking meters with this id <%= params[:search] %>.</p>
+<% end %>
+
