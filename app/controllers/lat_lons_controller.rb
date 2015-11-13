@@ -5,6 +5,11 @@ class LatLonsController < ApplicationController
   # GET /lat_lons.json
   def index
     @lat_lons = LatLon.all
+    if params[:search]
+      @lat_lons = LatLon.search(params[:search]).order("created_at DESC")
+    else
+      @lat_lons = LatLon.all.order('created_at DESC')
+    end
   end
 
   # GET /lat_lons/1
@@ -60,6 +65,9 @@ class LatLonsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
