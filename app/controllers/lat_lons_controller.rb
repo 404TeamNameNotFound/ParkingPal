@@ -5,6 +5,12 @@ class LatLonsController < ApplicationController
   # GET /lat_lons.json
   def index
     @lat_lons = LatLon.all
+
+    @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
+      marker.lat lat_lon.lat
+      marker.lng lat_lon.lon
+      marker.json({ :meter_id => lat_lon.parking_meter.id})
+    end
   end
 
   # GET /lat_lons/1
