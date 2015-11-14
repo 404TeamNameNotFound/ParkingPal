@@ -9,7 +9,19 @@ class LatLonsController < ApplicationController
     @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
       marker.lat lat_lon.lat
       marker.lng lat_lon.lon
-      marker.json({ :meter_id => lat_lon.parking_meter.id})
+      meter = lat_lon.parking_meter
+      color = "00FF00"
+      if meter.is_broken
+        color = "FF0000"
+      elsif meter.is_occupied
+        color = "0000FF"
+      end
+      marker.picture({
+       :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|" + color + "|000000", 
+       :width   => 32,
+       :height  => 32
+       })
+      marker.json({ :meter_id => meter.id})
     end
   end
 
