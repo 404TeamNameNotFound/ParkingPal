@@ -27,6 +27,11 @@
               </span>
             </div>
           </div>
+          <div class="row">
+            <div class="list-group" id="list">
+            </div>
+          </div>
+
         </div>
         <div role="tabpanel" class="tab-pane" id="location">
           <div class="row">
@@ -49,7 +54,8 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   Gmaps.store = {}
   Gmaps.store.markers = markers.map(function(m) {
     marker = handler.addMarker(m);
-  marker.serviceObject.set('id', m.meter_id); // You can add other attributes using set
+  marker.serviceObject.set('meter_id', m.meter_id); // You can add other attributes using set
+  marker.serviceObject.set('meter_name', m.meter_name);
   return marker;
 });
   handler.bounds.extendWith(Gmaps.store.markers);
@@ -58,6 +64,7 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   for (var i = 0; i <  Gmaps.store.markers.length; ++i) {
     var marker = Gmaps.store.markers[i];
     google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, event));
+    $('#list').prepend(makeListItem(marker.serviceObject));
   }
 
 });
