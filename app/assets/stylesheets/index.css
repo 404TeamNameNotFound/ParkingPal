@@ -18,7 +18,7 @@ html, body {
 	height: -webkit-calc(100% - 52px);
 }
 
-.row {
+#main-row {
 	height: 100%;
 }
 
@@ -27,4 +27,14 @@ html, body {
 	min-height: 100%;
 	/*padding-bottom: 100%;
 	margin-bottom: -100%;*/
+}
+
+#nav > * {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+#search-tabs-content {
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
