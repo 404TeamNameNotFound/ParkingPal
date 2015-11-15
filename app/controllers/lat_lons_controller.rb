@@ -5,7 +5,9 @@ class LatLonsController < ApplicationController
   # GET /lat_lons.json
   def index
 
-    @lat_lons = LatLon.limit(10)
+    @lat_lons = LatLon.where(nil)
+
+    @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
 
 
     @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
