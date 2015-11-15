@@ -8,8 +8,8 @@ class LatLonsController < ApplicationController
     @lat_lons = LatLon.where(nil)
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
+    @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
     @lat_lons = @lat_lons.no_after_hours if params[:no_after_hours].present?
-
 
     @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
       marker.lat lat_lon.lat
