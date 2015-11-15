@@ -27,16 +27,44 @@
               </span>
             </div>
           </div>
-          <div class="row">
-            <div class="list-group" id="list">
-            </div>
-          </div>
+
 
         </div>
         <div role="tabpanel" class="tab-pane" id="location">
           <div class="row">
-            Search by location
+            <form>
+              <div class="form-group">
+                <label for="search_type">Search Type: </label>
+                <select id="search_type" class="form-control">
+                  <option>Cheapest</option>
+                  <option>Closest</option>
+                </select> 
+                <div class="checkbox">
+                  <label><input type="checkbox">No Out of Order</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox">No After Hours</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox">No Occupied</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Search</button>
+            </form>
           </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="page-header">
+  <h1><small>Results:</small></h1>
+</div>
+        <div class="list-group">
+          <% if @lat_lons.each do |element| %>
+          <button type="button" class="list-group-item"><b> Meter No. </b><%= element.parking_meter.name %></button>
+          <% end.empty? %>
+  <div class="well">No meters to display.</div>
+<% end %>
         </div>
       </div>
 
