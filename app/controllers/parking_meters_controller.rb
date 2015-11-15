@@ -1,5 +1,6 @@
 class ParkingMetersController < ApplicationController
   include ParkingMetersHelper
+  # before_action :require_admin, only: [:destroy]
   before_action :set_parking_meter, only: [:show, :edit, :update, :destroy]
 
   # GET /parking_meters

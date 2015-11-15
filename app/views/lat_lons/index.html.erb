@@ -1,4 +1,5 @@
 <p id="notice"><%= notice %></p>
+<% if current_user && current_user.admin? %>
 
 <h1>Listing Lat Lons</h1>
 
@@ -29,3 +30,4 @@
 <br>
 
 <%= link_to 'New Lat lon', new_lat_lon_path %>
+<% end %>
