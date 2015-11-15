@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20151027070952) do
     t.integer  "name"
     t.float    "price"
     t.float    "max_time"
-    t.time     "start_time"
-    t.time     "end_time"
+    t.float    "start_time"
+    t.float    "end_time"
     t.boolean  "is_broken",   default: false
     t.boolean  "is_occupied", default: false
     t.datetime "created_at",                  null: false
