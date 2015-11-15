@@ -4,7 +4,9 @@ class LatLonsController < ApplicationController
   # GET /lat_lons
   # GET /lat_lons.json
   def index
+
     @lat_lons = LatLon.limit(10)
+
 
     @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
       marker.lat lat_lon.lat
@@ -21,7 +23,7 @@ class LatLonsController < ApplicationController
        :width   => 32,
        :height  => 32
        })
-      marker.json({ :meter_id => meter.id, :meter_name => meter.name})
+      marker.json({ :meter_id => meter.id})
     end
   end
 
