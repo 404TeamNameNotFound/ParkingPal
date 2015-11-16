@@ -1,6 +1,6 @@
 class LatLonsController < ApplicationController
+  # before_action :require_admin
 
-  #before_action :require_admin, only: [:show, :edit, :update, :destroy]
   before_action :set_lat_lon, only: [:show, :edit, :update, :destroy]
 
   # GET /lat_lons

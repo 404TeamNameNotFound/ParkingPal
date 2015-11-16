@@ -1,7 +1,8 @@
-<p id="notice"><%= notice %></p>
-<% if current_user && current_user.admin? %>
 
-<h1>Listing Lat Lons</h1>
+<% if current_user && current_user.admin? %>
+    <p id="notice"><%= notice %></p>
+
+    <h1>Listing Lat Lons</h1>
 
 <table>
   <thead>
@@ -29,5 +30,10 @@
 
 <br>
 
-<%= link_to 'New Lat lon', new_lat_lon_path %>
+    <%= link_to 'New Lat lon', new_lat_lon_path %>
+    <% else %>
+    <h1 style="color:#b80001">You do not have access to this page!</h1>
+    <p> You need to be an admin to see this page.</p>
+    <%= link_to 'Go back to the home page', '/' %>
+    <img src="http://memesvault.com/wp-content/uploads/Sad-Meme-Face-10.png" style="width:128px;height:128px;">
 <% end %>

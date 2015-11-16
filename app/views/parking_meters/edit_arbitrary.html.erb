@@ -1,7 +1,7 @@
 <%= javascript_include_tag "edit_arbitrary.js" %>
+<h1>Edit arbitrary parking meter</h1>
 <% if current_user && current_user.admin? %>
 
-<h1>Edit arbitrary parking meter</h1>
 
 <form>
 	<label for="meter-id">ID: </label>
@@ -45,4 +45,9 @@
 <% end %>
 <br>
 <button id="submit">Submit</button>
+<% else %>
+    <h1 style="color:#b80001">You do not have access to this page!</h1>
+    <p> You need to be an admin to see this page.</p>
+    <%= link_to 'Go back to the home page', '/' %>
+    <img src="http://memesvault.com/wp-content/uploads/Sad-Meme-Face-10.png" style="width:128px;height:128px;">
 <% end %>

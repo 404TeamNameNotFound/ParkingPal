@@ -12,8 +12,16 @@ class ApplicationController < ActionController::Base
   def require_user
     redirect_to '/login' unless current_user
   end
+
    def require_admin
      redirect_to '/' unless current_user.admin?
    end
+
+=begin
+  def require_admin
+    flash[:error] == "You must be logged in to access this section"
+    redirect_to '/' unless current_user.admin?
+  end
+=end
 end
 
