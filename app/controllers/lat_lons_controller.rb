@@ -4,13 +4,36 @@ class LatLonsController < ApplicationController
   # GET /lat_lons
   # GET /lat_lons.json
   def index
-    @lat_lons = LatLon.all
+
+    @lat_lons = LatLon.where(nil)
     if params[:search]
-      @lat_lons = LatLon.search(params[:search]).order("created_at DESC")
-    else
-      @lat_lons = LatLon.all.order('created_at DESC')
+      @lat_lons = LatLon.search(params[:search])
+
+    @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
+    @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
+    @lat_lons = @lat_lons.no_after_hours if params[:no_after_hours].present?
+
+    @hash = Gmaps4rails.build_markers(@lat_lons) do |lat_lon, marker|
+      marker.lat lat_lon.lat
+      marker.lng lat_lon.lon
+      meter = lat_lon.parking_meter
+      color = "00FF00"
+      if meter.is_broken
+        color = "FF0000"
+      elsif meter.is_occupied
+        color = "0000FF"
+      end
+      marker.picture({
+       :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|" + color + "|000000", 
+       :width   => 32,
+       :height  => 32
+       })
+      marker.json({ :meter_id => meter.id})
+
+    end
     end
   end
+
 
   # GET /lat_lons/1
   # GET /lat_lons/1.json
@@ -66,9 +89,6 @@ class LatLonsController < ApplicationController
     end
   end
 
-
-
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_lat_lon
@@ -79,4 +99,6 @@ class LatLonsController < ApplicationController
     def lat_lon_params
       params.require(:lat_lon).permit(:lat, :lon, :parking_meter_id)
     end
-end
+  end
+
+
