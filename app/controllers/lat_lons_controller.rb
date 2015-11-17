@@ -8,6 +8,8 @@ class LatLonsController < ApplicationController
     @lat_lons = LatLon.where(nil)
     if params[:search]
       @lat_lons = LatLon.search(params[:search])
+    end
+
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
     @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
@@ -32,7 +34,6 @@ class LatLonsController < ApplicationController
 
     end
     end
-  end
 
 
   # GET /lat_lons/1
