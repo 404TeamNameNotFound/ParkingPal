@@ -32,12 +32,16 @@ html, body {
 #nav {
 	height: 100%;
 	overflow: scroll;
-	/*box-sizing: border-box;*/
+	overflow-x: hidden;
 }
 
 #nav > * {
 	padding-left: 3px;
 	padding-right: 3px;
+}
+
+#meter-details {
+	display: none;
 }
 
 #search-tabs-content {

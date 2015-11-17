@@ -50,9 +50,9 @@ $(function() {
 		return {
 			id: parseInt($('#parking_meter_id').val()),
 			parking_meter: {
-				name: parseInt($('#parking_meter_name').val()),
-				price: parseInt($('#parking_meter_price').val()),
-				max_time: parseInt($('#parking_meter_max_time').val()),
+				name: $('#parking_meter_name').val(),
+				price: $('#parking_meter_price').val(),
+				max_time: $('#parking_meter_max_time').val(),
 				start_time: toTime($('#parking_meter_start_time').val()),
 				end_time: toTime($('#parking_meter_end_time').val()),
 				is_broken: $('#parking_meter_is_broken').is(':checked'),

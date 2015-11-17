@@ -5,7 +5,7 @@ class LatLonsController < ApplicationController
   # GET /lat_lons.json
   def index
 
-    @lat_lons = LatLon.where(nil)
+    @lat_lons = LatLon.limit(100)
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
     @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
