@@ -29,6 +29,12 @@ html, body {
 	margin-bottom: -100%;*/
 }
 
+#nav {
+	height: 100%;
+	overflow: scroll;
+	/*box-sizing: border-box;*/
+}
+
 #nav > * {
 	padding-left: 3px;
 	padding-right: 3px;
