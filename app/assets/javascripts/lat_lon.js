@@ -1,6 +1,14 @@
-
 var current_marker;
 var current_data
+
+$(function() {
+	$('#back-to-results').click(returnResults);
+	$('.list-group-item').click(function() {
+		var id = $(this).find('#results-meter-id').text();
+		console.log(id);
+		$.getJSON('/parking_meters/' + id + '.json', displayInfo);
+	})
+});
 
 function onMarkerClick(marker, event){
 	return function(event){
@@ -95,4 +103,9 @@ function createMeterObject(data) {
 function parseTime(time) {
 	var timeArray = time.split('T')[1].split(':');
 	return timeArray[0] + ':' + timeArray[1];
+}
+
+function returnResults() {
+	$('#meter-details').hide();
+	$('#search-results').show();
 }
