@@ -112,17 +112,23 @@ function displayInfo(data) {
 	$('#meter-details').show();
 }
 
-function updateTag() {
+function updateTag(changedType) {
 	if (!currentData){
 		return
 	}
 
-	var meterObject = createMeterObject(currentData);
+	if (changedType == 'broken') {
+		currentData.is_broken = !currentData.is_broken;
+		var meterObject = createMeterObject(currentData);
+	} else if (changedType == 'occupied') {
+		currentData.is_occupied = !currentData.is_occupied;
+		var meterObject = createMeterObject(currentData);
+	} else return;
 
 	toggleBrokenOccupiedLabels(meterObject.parking_meter.is_broken, meterObject.parking_meter.is_occupied);
 
 	if (currentMarker) {
-		setMarkerColor(currentMarker, $('#tag-broken').is(':checked'), $('#tag-occupied').is(':checked'))
+		setMarkerColor(currentMarker, meterObject.parking_meter.is_broken, meterObject.parking_meter.is_occupied);
 	}
 
 	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
@@ -150,8 +156,8 @@ function createMeterObject(data) {
 			max_time: data.max_time,
 			start_time: data.start_time,
 			end_time: data.end_time,
-			is_broken: $('#tag-broken').is(':checked'),
-			is_occupied: $('#tag-occupied').is(':checked'),
+			is_broken: data.is_broken,
+			is_occupied: data.is_occupied,
 			lat_lon: data.lat_lon
 		}
 	}

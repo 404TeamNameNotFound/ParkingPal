@@ -115,7 +115,7 @@
         <div class="page-header">
           <h1><small>Edit Tags:</small></h1>
         </div>
-        <div class="checkbox">
+        <!-- <div class="checkbox">
           <label>
             <input id="tag-broken" type="checkbox"> Broken
           </label>
@@ -124,14 +124,17 @@
           <label>
             <input id="tag-occupied" type="checkbox"> Occupied
           </label>
-        </div>
-<!--         <div class="btn-group btn-group-justified" role="group">
+        </div> -->
+        <div class="btn-group btn-group-justified" role="group">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="mark-broken">Mark as Broken</button>
+            <button type="button" class="btn btn-default" id="mark-broken">Toggle Broken</button>
           </div>
+        </div>
+        <div class="btn-group btn-group-justified" role="group">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="mark-occupied">Mark as Occupied</button>
-          </div> -->
+            <button type="button" class="btn btn-default" id="mark-occupied">Toggle Occupied</button>
+          </div>
+        </div>
       </div>
     </div>
     <div id="map" class="col-sm-9"></div>
@@ -163,11 +166,13 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
 
 });
 
-$('#tag-broken').click(function() {
-  updateTag()});
+$('#mark-broken').click(function() {
+  updateTag('broken');
+});
 
-$('#tag-occupied').click(function() {
-  updateTag()});
+$('#mark-occupied').click(function() {
+  updateTag('occupied');
+});
 
 </script>
 
