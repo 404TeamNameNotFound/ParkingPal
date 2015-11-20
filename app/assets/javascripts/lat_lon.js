@@ -177,8 +177,8 @@ function createMeterObject(data) {
 
 function parseTime(time) {
 	var timeInMins = time / 60;
-	var hours = timeInMins / 60;
-	var mins = timeInMins % 60;
+	var hours = Math.floor(timeInMins / 60);
+	var mins = Math.floor(timeInMins % 60);
 	var hoursString = (hours < 10) ? ('0' + hours) : hours;
 	var minsString = (mins < 10) ? ('0' + mins) : mins;
 	return hoursString + ':' + minsString;

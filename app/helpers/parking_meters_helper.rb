@@ -42,16 +42,16 @@ module ParkingMetersHelper
 			when "Time in Effect"
 				times = i.last.split(' TO ')
 				if times.length >= 2
-					temp_meter.start_time = Time.parse(times.first).seconds_since_midnight()
-					temp_meter.end_time = Time.parse(times.last).seconds_since_midnight()
+					temp_meter.start_time = Time.parse(times.first).seconds_since_midnight().to_i
+					temp_meter.end_time = Time.parse(times.last).seconds_since_midnight().to_i
 				else
 					times = i.last.split(/-/)
 					if times.length >= 2
-						temp_meter.start_time = Time.parse(times.first).seconds_since_midnight()
-						temp_meter.end_time = Time.parse(times.last).seconds_since_midnight()
+						temp_meter.start_time = Time.parse(times.first).seconds_since_midnight().to_i
+						temp_meter.end_time = Time.parse(times.last).seconds_since_midnight().to_i
 					else
-						temp_meter.start_time = Time.parse("0:00").seconds_since_midnight()
-						temp_meter.end_time = Time.parse(" 23:59:59.999999").seconds_since_midnight()
+						temp_meter.start_time = Time.parse("0:00").seconds_since_midnight().to_i
+						temp_meter.end_time = Time.parse(" 23:59:59.999999").seconds_since_midnight().to_i
 					end
 				end
 			end
