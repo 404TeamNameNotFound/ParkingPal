@@ -1,5 +1,6 @@
 var currentMarker;
 var currentData;
+var resultClicked = false;
 
 
 $(function() {
@@ -38,7 +39,7 @@ function createSearchResult(meter) {
 
 function bindResultToMarker($result, marker) {
 	$result.click(function() {
-		$(this).off('mouseleave');
+		resultClicked = true;
 		handler.getMap().setZoom(16);
 		marker.setMap(handler.getMap());
 		marker.panTo();
@@ -49,6 +50,7 @@ function bindResultToMarker($result, marker) {
 		marker.getServiceObject().setZIndex(google.maps.Marker.MAX_ZINDEX);
 	})
 	$result.mouseleave(function() {
+		if (resultClicked) return;
 		setMarkerSize(marker.getServiceObject(), new google.maps.Size(21, 34));
 		marker.getServiceObject().setZIndex(undefined);
 	})
@@ -183,6 +185,7 @@ function parseTime(time) {
 }
 
 function returnResults() {
+	resultClicked = false;
 	$('#meter-details').hide();
 	$('#search-results').show();
 	setMarkerSize(currentMarker, new google.maps.Size(21, 34));
