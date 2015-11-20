@@ -14,7 +14,7 @@
  *= require_self
  */
 
-html, body {
+/*html, body {
     background: #fff;
     font-family: Helvetica, sans-serif;
     font-weight: normal;
@@ -26,13 +26,13 @@ html, body {
 .container {
     padding: 0%;
     width: 100%;
-}
+}*/
 
 
 /* FORM PAGES */
 
 
-.form {
+/*.form {
     text-align:center;
     margin: 0 auto 10px;
     padding: 20px 0 10px 0;
@@ -63,3 +63,4 @@ input[type=password] {
     margin-top: 6px;
 }
 
+*/

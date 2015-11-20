@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151107234249) do
+ActiveRecord::Schema.define(version: 20151027070952) do
 
   create_table "lat_lons", force: :cascade do |t|
     t.decimal  "lat",              precision: 15, scale: 10, default: 0.0
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20151107234249) do
     t.integer  "name"
     t.float    "price"
     t.float    "max_time"
-    t.time     "start_time"
-    t.time     "end_time"
+    t.float    "start_time"
+    t.float    "end_time"
     t.boolean  "is_broken",   default: false
     t.boolean  "is_occupied", default: false
     t.datetime "created_at",                  null: false

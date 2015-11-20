@@ -24,50 +24,34 @@
         </a>
       </div>
       <ul class="nav navbar-nav navbar-right">
-        <% if current_user %>
-            <ul>
-              <li><%= current_user.email %></li>
-              <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+       <% if current_user %>
+       <p class="navbar-text"><%= current_user.email %></p>
+       <li><%= link_to "Log out", logout_path, method: "delete" %></li>
+       <%-#add Saved ParkingMeters, etc -%>
+       <% if current_user && current_user.admin? %>
+       <li><a href="/update">Update</a></li>
+       <li><a href="/edit">Edit</a></li>
+       <% end %>
+       <% else %>
+       <li><a href="/signup">Sign Up</a></li>
+       <li><a href="/login">Login</a></li>
+       <% end %>
+     </ul>
+   </div>
+ </nav>
 
-              <%-#add Saved ParkingMeters, etc -%>
-
-            </ul>
-            <% if current_user && current_user.admin? %>
-                <li>
-                  <a href="/update">Update</a>
-                </li>
-                <li>
-                  <a href="/edit">Edit</a>
-                </li>
-            <% end %>
-
-
-            <% else %>
-        <li>
-
-        <a href="/signup">Sign Up</a>
-        </li>
-        <li>
-          <a href="/login">Login</a>
-        </li>
-
-            <% end %>
-
-      </ul>
-    </div>
-  </nav>
-  <div class="container">
+  <!-- <div class="container"> -->
 
 <%= yield %>
 
-</div>
+<!-- </div> -->
 
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
   <!-- Comment out to remove debugger which appears at the bottom of each page-->
-  <%= debug(params) if Rails.env.development? %>
+<!--   <%= debug(params) if Rails.env.development? %> -->
 
 </body>
 </html>

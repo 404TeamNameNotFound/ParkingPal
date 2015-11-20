@@ -3,6 +3,7 @@
     <div class="form">
 
       <h1>Log in</h1>
+      <p id="notice"><%= notice %></p>
 
       <%= form_for(:session, url: login_path) do |f| %>
           <%= f.email_field :email, :placeholder => "Email" %>

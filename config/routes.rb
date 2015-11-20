@@ -6,12 +6,12 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'parking_meters#index'
+  root 'lat_lons#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
   get 'signup'  => 'users#new'
-  get '/login' => 'sessions#new'
+  get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 

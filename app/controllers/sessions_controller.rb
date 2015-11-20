@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       redirect_to '/'
     else
-      redirect_to 'login'
+      flash[:notice] = "Invalid Login. Try again."
+      redirect_to login_path
     end
   end
   def destroy
