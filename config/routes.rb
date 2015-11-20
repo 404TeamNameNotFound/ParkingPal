@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :parked_meters
   resources :users
   resources :parking_meters
   resources :lat_lons

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Parked Meters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Time left</th>
+      <th>Parking meter</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parked_meters.each do |parked_meter| %>
+      <tr>
+        <td><%= parked_meter.time_left %></td>
+        <td><%= parked_meter.parking_meter %></td>
+        <td><%= link_to 'Show', parked_meter %></td>
+        <td><%= link_to 'Edit', edit_parked_meter_path(parked_meter) %></td>
+        <td><%= link_to 'Destroy', parked_meter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parked meter', new_parked_meter_path %>
