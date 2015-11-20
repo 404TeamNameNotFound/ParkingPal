@@ -8,30 +8,31 @@
 <div id="main-container" class="container-fluid">
   <div class="row" id="main-row">
     <div id="nav" class="col-sm-3">
-      <div class="row">
-        <ul class="nav nav-pills nav-justified" role="tablist" id="search-tabs">
-          <li role="presentation" class="active"><a href="#id" role="tab" data-toggle="tab">Search by ID</a></li>
-          <li role="presentation"><a href="#location" role="tab" data-toggle="tab">Search by Location</a></li>
-        </ul>
+      <br>
+  <div class="btn-group " role="group" aria-label="...">
+      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseID" aria-expanded="false" aria-controls="collapseExample">
+        Search By ID
+      </a>
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLocation" aria-expanded="false" aria-controls="collapseExample">
+        Search By Location
+      </button>
       </div>
 
-      <div class="tab-content" id="search-tabs-content">
-        <div role="tabpanel" class="tab-pane active" id="id">
-          <div class="row">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search by ID...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                  <span class="glyphicon glyphicon-search"></span>
-                </button>
-              </span>
-            </div>
-          </div>
-
-
+      <div class="collapse" id="collapseID">
+        <br>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search by ID...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
         </div>
-        <div role="tabpanel" class="tab-pane" id="location">
-          <div class="row">
+      </div>
+
+        <div class="collapse" id="collapseLocation">
+          <br>
+
             <form action="/lat_lons" method="get" class="form-horizontal">
               <div class="form-group">
                 <label for="location" class="col-sm-3 control-label">Location:</label>
@@ -70,10 +71,8 @@
                 </div>
               </div>
             </form>
-          </div>
-        </div>
       </div>
-      <hr>
+
 
       <div class="row" id="search-results">
         <div class="page-header">
