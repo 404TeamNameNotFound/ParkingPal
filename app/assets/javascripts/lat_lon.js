@@ -10,6 +10,26 @@ $(function() {
 	})
 });
 
+function setMarkerSize(marker, size) {
+	var icon = marker.getIcon();
+	icon.size = size;
+	icon.scaledSize = size;
+	marker.setIcon(icon);
+}
+
+function setMarkerColor(marker, broken, occupied) {
+	var color = "00FF00";
+	if (broken){
+		color = "FF0000"
+	} else if (occupied){
+		color = "0000FF"
+	}
+
+	var icon = marker.getIcon();
+	icon.url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000";
+	marker.setIcon(icon);
+}
+
 function createSearchResult(meter) {
 	return ('<button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id">' 
 		+ meter.serviceObject.meter_name + '</span></button>');
@@ -25,6 +45,7 @@ function bindResultToMarker($result, marker) {
 }
 
 function populateSearchResults(markers) {
+	// console.log(markers)
 	if (markers.length == 0) {
 		var $empty = $('<div class="well">No meters to display.</div>');
 		$empty.appendTo('#search-results-list');
@@ -42,17 +63,11 @@ function onMarkerClick(marker, event){
 		var regularSize = new google.maps.Size(21, 34);
 
 		if(currentMarker) {
-			var oldSelectedIcon = currentMarker.getIcon();
-			oldSelectedIcon.size = regularSize;
-			oldSelectedIcon.scaledSize = regularSize;
-			currentMarker.setIcon(oldSelectedIcon);
+			setMarkerSize(currentMarker, regularSize);
 			currentMarker.setZIndex(undefined);
 		}
 
-		var icon = marker.getIcon();
-		icon.size = new google.maps.Size(25, 40);
-		icon.scaledSize = new google.maps.Size(25, 40);
-		marker.setIcon(icon);
+		setMarkerSize(marker, selectedSize);
 		marker.setZIndex(google.maps.Marker.MAX_ZINDEX);
 
 		$.getJSON('/parking_meters/' + marker.meter_id + '.json', displayInfo);
@@ -106,17 +121,8 @@ function updateTag() {
 
 	toggleBrokenOccupiedLabels(meterObject.parking_meter.is_broken, meterObject.parking_meter.is_occupied);
 
-	var color = "00FF00";
-	if ($('#tag-broken').is(':checked')){
-		color = "FF0000"
-	} else if ($('#tag-occupied').is(':checked')){
-		color = "0000FF"
-	}
-
 	if (currentMarker) {
-		var icon = currentMarker.getIcon();
-		icon.url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000";
-		currentMarker.setIcon(icon);
+		setMarkerColor(currentMarker, $('#tag-broken').is(':checked'), $('#tag-occupied').is(':checked'))
 	}
 
 	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
@@ -159,4 +165,5 @@ function parseTime(time) {
 function returnResults() {
 	$('#meter-details').hide();
 	$('#search-results').show();
+	setMarkerSize(currentMarker, new google.maps.Size(21, 34));
 }
