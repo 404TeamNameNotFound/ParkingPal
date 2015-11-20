@@ -60,6 +60,27 @@ function onMarkerClick(marker, event){
 	}
 }
 
+function toggleBrokenOccupiedLabels(broken, occupied) {
+	$('#meter-broken').toggleClass('label-success', !broken);
+	$('#meter-broken').toggleClass('label-danger', broken);
+	if (broken) {
+		$('#meter-broken').text('Broken');
+	} else {
+		$('#meter-broken').text('Not Broken');
+	}
+
+	$('#meter-occupied').toggleClass('label-success', !occupied);
+	$('#meter-occupied').toggleClass('label-danger', occupied);
+	if (occupied) {
+		$('#meter-occupied').text('Occupied');
+	} else {
+		$('#meter-occupied').text('Not Occupied');
+	}
+
+	$('#tag-broken').prop('checked', broken);
+	$('#tag-occupied').prop('checked', occupied);
+}
+
 function displayInfo(data) {
 	currentData = data;
 	console.log(data);
@@ -69,36 +90,21 @@ function displayInfo(data) {
 	$('#meter-price').text('$' + data.price);
 	$('#meter-max-time').text(data.max_time + ' hrs');
 	$('#meter-start-time').text(data.start_time);
-	$('#meter-end-time').text(data.end_time);
+	$('#meter-end-time').text(data.end_time);	
 
-	$('#meter-broken').toggleClass('label-success', !data.is_broken);
-	$('#meter-broken').toggleClass('label-danger', data.is_broken);
-	if (data.is_broken) {
-		$('#meter-broken').text('Broken');
-	} else {
-		$('#meter-broken').text('Not Broken');
-	}
-
-	$('#meter-occupied').toggleClass('label-success', !data.is_occupied);
-	$('#meter-occupied').toggleClass('label-danger', data.is_occupied);
-	if (data.is_occupied) {
-		$('#meter-occupied').text('Occupied');
-	} else {
-		$('#meter-occupied').text('Not Occupied');
-	}
-
-	$('#tag-broken').prop('checked', data.is_broken);
-	$('#tag-occupied').prop('checked', data.is_occupied);
+	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
 	$('#meter-details').show();
 }
 
-function update_tag() {
+function updateTag() {
 	if (!currentData){
 		return
 	}
 
 	var meterObject = createMeterObject(currentData);
+
+	toggleBrokenOccupiedLabels(meterObject.parking_meter.is_broken, meterObject.parking_meter.is_occupied);
 
 	var color = "00FF00";
 	if ($('#tag-broken').is(':checked')){
@@ -108,7 +114,9 @@ function update_tag() {
 	}
 
 	if (currentMarker) {
-		currentMarker.setIcon("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000");
+		var icon = currentMarker.getIcon();
+		icon.url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000";
+		currentMarker.setIcon(icon);
 	}
 
 	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
