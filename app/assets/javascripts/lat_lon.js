@@ -1,6 +1,7 @@
 var currentMarker;
 var currentData;
 
+
 $(function() {
 	$('#back-to-results').click(returnResults);
 	$('.list-group-item').click(function() {
@@ -113,8 +114,8 @@ function displayInfo(data) {
 	$('#meter-name').text(data.name);
 	$('#meter-price').text('$' + data.price);
 	$('#meter-max-time').text(data.max_time + ' hrs');
-	$('#meter-start-time').text(parseTime(data.start_time));
-	$('#meter-end-time').text(parseTime(data.end_time));	
+	$('#meter-start-time').text(data.start_time);
+	$('#meter-end-time').text(data.end_time);
 
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
