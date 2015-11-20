@@ -25,6 +25,10 @@ function bindResultToMarker($result, marker) {
 }
 
 function populateSearchResults(markers) {
+	if (markers.length == 0) {
+		var $empty = $('<div class="well">No meters to display.</div>');
+		$empty.appendTo('#search-results-list');
+	}
 	for (var i=0; i<markers.length; i++) {
 		var $result = $(createSearchResult(markers[i]));
 		$result.appendTo('#search-results-list');
