@@ -79,12 +79,7 @@
         <div class="page-header">
           <h1><small>Results:</small></h1>
         </div>
-        <div class="list-group">
-          <% if @lat_lons.each do |element| %>
-          <button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id"><%= element.parking_meter.name %></span></button>
-          <% end.empty? %>
-          <div class="well">No meters to display.</div>
-          <% end %>
+        <div class="list-group" id="search-results-list">
         </div>
       </div>
 
@@ -121,7 +116,7 @@
         <div class="page-header">
           <h1><small>Edit Tags:</small></h1>
         </div>
-        <div class="checkbox">
+        <!-- <div class="checkbox">
           <label>
             <input id="tag-broken" type="checkbox"> Broken
           </label>
@@ -129,16 +124,19 @@
         <div class="checkbox">
           <label>
             <input id="tag-occupied" type="checkbox"> Occupied
-          </label>
+          </label> -->
+
+        <div class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="mark-broken">Toggle Broken</button>
+          </div>
+        </div>
+        <div class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="mark-occupied">Toggle Occupied</button>
+          </div>
         </div>
         <% end %>
-<!--         <div class="btn-group btn-group-justified" role="group">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="mark-broken">Mark as Broken</button>
-          </div>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" id="mark-occupied">Mark as Occupied</button>
-          </div> -->
       </div>
     </div>
     <div id="map" class="col-sm-9"></div>
@@ -154,9 +152,10 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   Gmaps.store = {}
   Gmaps.store.markers = markers.map(function(m) {
     marker = handler.addMarker(m);
-  marker.serviceObject.set('meter_id', m.meter_id); // You can add other attributes using set
-  return marker;
-});
+    marker.serviceObject.set('meter_id', m.meter_id); // You can add other attributes using set
+    marker.serviceObject.set('meter_name', m.meter_name);
+    return marker;
+  });
   handler.bounds.extendWith(Gmaps.store.markers);
   handler.fitMapToBounds();
 
@@ -165,13 +164,17 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, window.event));
   }
 
+  populateSearchResults(Gmaps.store.markers);
+
 });
 
-$('#tag-broken').click(function() {
-  update_tag()});
+$('#mark-broken').click(function() {
+  updateTag('broken');
+});
 
-$('#tag-occupied').click(function() {
-  update_tag()});
+$('#mark-occupied').click(function() {
+  updateTag('occupied');
+});
 
 </script>
 

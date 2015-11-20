@@ -28,7 +28,7 @@ class LatLonsController < ApplicationController
        :width   => 32,
        :height  => 32
        })
-      marker.json({ :meter_id => meter.id})
+      marker.json({ :meter_id => meter.id, :meter_name => meter.name })
     end
   end
 
