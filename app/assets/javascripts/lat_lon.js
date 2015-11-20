@@ -36,16 +36,24 @@ function createSearchResult(meter) {
 }
 
 function bindResultToMarker($result, marker) {
-	$result.click( function() {
+	$result.click(function() {
 		handler.getMap().setZoom(16);
 		marker.setMap(handler.getMap());
 		marker.panTo();
 		google.maps.event.trigger(marker.getServiceObject(), 'click');
 	})
+	$result.mouseover(function() {
+		setMarkerSize(marker.getServiceObject(), new google.maps.Size(28, 45));
+		marker.getServiceObject().setZIndex(google.maps.Marker.MAX_ZINDEX);
+	})
+	$result.mouseleave(function() {
+		setMarkerSize(marker.getServiceObject(), new google.maps.Size(21, 34));
+		marker.getServiceObject().setZIndex(undefined);
+	})
 }
 
 function populateSearchResults(markers) {
-	// console.log(markers)
+	console.log(markers)
 	if (markers.length == 0) {
 		var $empty = $('<div class="well">No meters to display.</div>');
 		$empty.appendTo('#search-results-list');
