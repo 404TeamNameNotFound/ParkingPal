@@ -1,5 +1,5 @@
-var current_marker;
-var current_data
+var currentMarker;
+var currentData;
 
 $(function() {
 	$('#back-to-results').click(returnResults);
@@ -10,15 +10,52 @@ $(function() {
 	})
 });
 
+function createSearchResult(meter) {
+	return ('<button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id">' 
+		+ meter.serviceObject.meter_name + '</span></button>');
+}
+
+function bindResultToMarker($result, marker) {
+	$result.click( function() {
+		handler.getMap().setZoom(16);
+		marker.setMap(handler.getMap());
+		marker.panTo();
+		google.maps.event.trigger(marker.getServiceObject(), 'click');
+	})
+}
+
+function populateSearchResults(markers) {
+	for (var i=0; i<markers.length; i++) {
+		var $result = $(createSearchResult(markers[i]));
+		$result.appendTo('#search-results-list');
+		bindResultToMarker($result, markers[i]);
+	}
+}
+
 function onMarkerClick(marker, event){
 	return function(event){
+		var selectedSize = new google.maps.Size(25, 40);
+		var regularSize = new google.maps.Size(21, 34);
+
+		if(currentMarker) {
+			var oldSelectedIcon = currentMarker.getIcon();
+			oldSelectedIcon.size = regularSize;
+			oldSelectedIcon.scaledSize = regularSize;
+			currentMarker.setIcon(oldSelectedIcon);
+		}
+
+		var icon = marker.getIcon();
+		icon.size = new google.maps.Size(25, 40);
+		icon.scaledSize = new google.maps.Size(25, 40);
+		marker.setIcon(icon);
+
 		$.getJSON('/parking_meters/' + marker.meter_id + '.json', displayInfo);
-		current_marker = marker;
+		currentMarker = marker;
 	}
 }
 
 function displayInfo(data) {
-	current_data = data;
+	currentData = data;
 	console.log(data);
 	$('#search-results').hide();
 
@@ -51,11 +88,11 @@ function displayInfo(data) {
 }
 
 function update_tag() {
-	if (!current_data){
+	if (!currentData){
 		return
 	}
 
-	var meterObject = createMeterObject(current_data);
+	var meterObject = createMeterObject(currentData);
 
 	var color = "00FF00";
 	if ($('#tag-broken').is(':checked')){
@@ -64,8 +101,8 @@ function update_tag() {
 		color = "0000FF"
 	}
 
-	if (current_marker) {
-		current_marker.setIcon("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000");
+	if (currentMarker) {
+		currentMarker.setIcon("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000");
 	}
 
 	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );

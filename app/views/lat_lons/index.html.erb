@@ -79,12 +79,9 @@
         <div class="page-header">
           <h1><small>Results:</small></h1>
         </div>
-        <div class="list-group">
-          <% if @lat_lons.each do |element| %>
-          <button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id"><%= element.parking_meter.name %></span></button>
-          <% end.empty? %>
+        <div class="list-group" id="search-results-list">
+          <button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id"></span></button>
           <div class="well">No meters to display.</div>
-          <% end %>
         </div>
       </div>
 
@@ -152,9 +149,10 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   Gmaps.store = {}
   Gmaps.store.markers = markers.map(function(m) {
     marker = handler.addMarker(m);
-  marker.serviceObject.set('meter_id', m.meter_id); // You can add other attributes using set
-  return marker;
-});
+    marker.serviceObject.set('meter_id', m.meter_id); // You can add other attributes using set
+    marker.serviceObject.set('meter_name', m.meter_name);
+    return marker;
+  });
   handler.bounds.extendWith(Gmaps.store.markers);
   handler.fitMapToBounds();
 
@@ -162,6 +160,8 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     var marker = Gmaps.store.markers[i];
     google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, window.event));
   }
+
+  populateSearchResults(Gmaps.store.markers);
 
 });
 
