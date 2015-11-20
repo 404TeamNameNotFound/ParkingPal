@@ -37,6 +37,7 @@ function createSearchResult(meter) {
 
 function bindResultToMarker($result, marker) {
 	$result.click(function() {
+		$(this).off('mouseleave');
 		handler.getMap().setZoom(16);
 		marker.setMap(handler.getMap());
 		marker.panTo();
