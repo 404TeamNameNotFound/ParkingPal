@@ -34,7 +34,7 @@ function populateSearchResults(markers) {
 
 function onMarkerClick(marker, event){
 	return function(event){
-		var selectedSize = new google.maps.Size(25, 40);
+		var selectedSize = new google.maps.Size(28, 45);
 		var regularSize = new google.maps.Size(21, 34);
 
 		if(currentMarker) {
@@ -42,12 +42,14 @@ function onMarkerClick(marker, event){
 			oldSelectedIcon.size = regularSize;
 			oldSelectedIcon.scaledSize = regularSize;
 			currentMarker.setIcon(oldSelectedIcon);
+			currentMarker.setZIndex(undefined);
 		}
 
 		var icon = marker.getIcon();
 		icon.size = new google.maps.Size(25, 40);
 		icon.scaledSize = new google.maps.Size(25, 40);
 		marker.setIcon(icon);
+		marker.setZIndex(google.maps.Marker.MAX_ZINDEX);
 
 		$.getJSON('/parking_meters/' + marker.meter_id + '.json', displayInfo);
 		currentMarker = marker;
