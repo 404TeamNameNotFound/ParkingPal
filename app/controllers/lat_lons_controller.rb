@@ -17,11 +17,11 @@ class LatLonsController < ApplicationController
       marker.lat lat_lon.lat
       marker.lng lat_lon.lon
       meter = lat_lon.parking_meter
-      color = "00FF00"
+      color = "18bc9c"
       if meter.is_broken
-        color = "FF0000"
+        color = "e74c3c"
       elsif meter.is_occupied
-        color = "0000FF"
+        color = "3498db"
       end
       marker.picture({
        :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|" + color + "|000000", 

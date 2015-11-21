@@ -20,11 +20,11 @@ function setMarkerSize(marker, size) {
 }
 
 function setMarkerColor(marker, broken, occupied) {
-	var color = "00FF00";
+	var color = "18bc9c";
 	if (broken){
-		color = "FF0000"
+		color = "e74c3c"
 	} else if (occupied){
-		color = "0000FF"
+		color = "3498db"
 	}
 
 	var icon = marker.getIcon();
