@@ -97,7 +97,7 @@ function toggleBrokenOccupiedLabels(broken, occupied) {
 	}
 
 	$('#meter-occupied').toggleClass('label-success', !occupied);
-	$('#meter-occupied').toggleClass('label-danger', occupied);
+	$('#meter-occupied').toggleClass('label-info', occupied);
 	if (occupied) {
 		$('#meter-occupied').text('Occupied');
 	} else {
