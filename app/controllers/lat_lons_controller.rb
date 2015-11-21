@@ -10,6 +10,14 @@ class LatLonsController < ApplicationController
       @lat_lons = LatLon.search(params[:search])
     end
 
+    if params[:location].present?
+      if params[:radius].present?
+        @lat_lons = LatLon.closest_meter(params[:location], params[:radius])
+      else
+        @lat_lons = LatLon.all
+      end
+    end
+
     @lat_lons = @lat_lons.cheapest_meter if params[:cheapest_meter].present?
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
