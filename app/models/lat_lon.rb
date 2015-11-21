@@ -7,6 +7,12 @@ class LatLon < ActiveRecord::Base
 		includes(:parking_meter).where("parking_meters.name LIKE ?", "%#{search}%").references(:parking_meters)
 	end
 
+	def self.closest_meter(location, radius)
+		geocoded_location = Geocoder.coordinates(location)
+		#includes(:parking_meter).near([geocoded_location], radius, :units => :km).references(:parking_meters)
+		LatLon.near([geocoded_location], radius, :units => km)
+	end
+
 	def self.cheapest_meter
 		includes(:parking_meter).where("parking_meters.price = ?", minimum("parking_meters.price")).references(:parking_meters)
 	end
