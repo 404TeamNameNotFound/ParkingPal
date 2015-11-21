@@ -10,7 +10,7 @@ class LatLon < ActiveRecord::Base
 	def self.closest_meter(location, radius)
 		geocoded_location = Geocoder.coordinates(location)
 		#includes(:parking_meter).near([geocoded_location], radius, :units => :km).references(:parking_meters)
-		LatLon.near([geocoded_location], radius, :units => km)
+		LatLon.near([geocoded_location], radius, :units => :km)
 	end
 
 	def self.cheapest_meter

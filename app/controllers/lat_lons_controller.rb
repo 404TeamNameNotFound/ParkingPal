@@ -18,6 +18,8 @@ class LatLonsController < ApplicationController
       end
     end
 
+    @lat_lons = @lat_lons.current_location(params[:location], params[:radius]).present?
+
     @lat_lons = @lat_lons.cheapest_meter if params[:cheapest_meter].present?
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
