@@ -4,7 +4,6 @@ class LatLon < ActiveRecord::Base
 	belongs_to :parking_meter
 
 	def self.search(search)
-		#where("parking_meter.name LIKE ?", "%#{search}%")
 		includes(:parking_meter).where("parking_meters.name LIKE ?", "%#{search}%").references(:parking_meters)
 	end
 

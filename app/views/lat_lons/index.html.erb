@@ -35,7 +35,7 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="location">
           <div class="row">
-            <form action="/lat_lons" method="get">
+            <!--<form action="/lat_lons" method="get">-->
               <div class="form-group">
                 <label for="location">Location</label>
                 <input type="text" class="form-control" name="location" id="location" placeholder="Enter a Location">
@@ -44,7 +44,7 @@
                 </div>
               </div>
                <div class="form-group">
-                <label for="radius">Raduis</label>
+                <label for="radius">Radius</label>
                 <input type="number" min="0" class="form-control" name="radius" id="radius" placeholder="Enter a Radius">
               </div>
               <div class="form-group">
@@ -52,7 +52,7 @@
                 <select name="search_type" id="search_type" class="form-control">
                   <option value="cheapest">Cheapest</option>
                   <option value="closest">Closest</option>
-                </select> 
+                </select>
                 <div class="checkbox">
                   <label><input id="no_broken" name="no_broken" type="checkbox" value="true">No Broken</label>
                 </div>
@@ -114,7 +114,4 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
 
 
 <% end %>
-
-
-
 
