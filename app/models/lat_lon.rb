@@ -13,6 +13,12 @@ class LatLon < ActiveRecord::Base
 		LatLon.near([geocoded_location], radius, :units => :km)
 	end
 
+	def self.current_location(location, radius)
+		_latitude = request.location.latitude
+		_longitude = request.location.longitude
+		LatLon.near([_latitude, _longitude], radius, :units => :km)
+	end
+
 	def self.cheapest_meter
 		includes(:parking_meter).where("parking_meters.price = ?", minimum("parking_meters.price")).references(:parking_meters)
 	end
