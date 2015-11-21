@@ -7,6 +7,10 @@ class LatLon < ActiveRecord::Base
 		includes(:parking_meter).where("parking_meters.name LIKE ?", "%#{search}%").references(:parking_meters)
 	end
 
+	def self.cheapest_meter
+		includes(:parking_meter).where("parking_meters.price = ?", minimum("parking_meters.price")).references(:parking_meters)
+	end
+
 	def self.no_broken
         includes(:parking_meter).where("parking_meters.is_broken = ?", true).references(:parking_meters)
     end
