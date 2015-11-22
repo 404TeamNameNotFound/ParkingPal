@@ -10,12 +10,16 @@ class LatLonsController < ApplicationController
     if params[:search]
       @lat_lons = LatLon.search(params[:search])
     end
-    
+
     if (params[:location].present? && params[:radius].present?)
       @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
     end
 
-    # @lat_lons = @lat_lons.current_location(params[:location], params[:radius]).present?
+    if (params[:current_location].present? && params[:radius].present?)
+      _lat = request.location.latitude
+      _lon = request.location.longitude
+      @lat_lons = @lat_lons.within(params[:radius], :origin => [_lat, _lon])
+    end
 
     @lat_lons = @lat_lons.cheapest_meter if params[:cheapest_meter].present?
 
