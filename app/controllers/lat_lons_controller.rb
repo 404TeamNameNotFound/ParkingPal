@@ -1,6 +1,7 @@
 class LatLonsController < ApplicationController
   before_action :set_lat_lon, only: [:show, :edit, :update, :destroy]
 
+
   # GET /lat_lons
   # GET /lat_lons.json
   def index
@@ -9,16 +10,12 @@ class LatLonsController < ApplicationController
     if params[:search]
       @lat_lons = LatLon.search(params[:search])
     end
-
-    if params[:location].present?
-      if params[:radius].present?
-        @lat_lons = LatLon.closest_meter(params[:location], params[:radius])
-      else
-        @lat_lons = LatLon.all
-      end
+    
+    if (params[:location].present? && params[:radius].present?)
+      @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
     end
 
-    @lat_lons = @lat_lons.current_location(params[:location], params[:radius]).present?
+    # @lat_lons = @lat_lons.current_location(params[:location], params[:radius]).present?
 
     @lat_lons = @lat_lons.cheapest_meter if params[:cheapest_meter].present?
 
