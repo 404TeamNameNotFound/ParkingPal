@@ -14,21 +14,29 @@ class LatLonsController < ApplicationController
       @lat_lons = @lat_lons.search(params[:search])
     end
 
-    if (params[:location].present? && params[:radius].present?)
-      @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
-    end
-
     if (params[:current_location].present? && params[:radius].present?)
-      _lat = request.location.latitude
-      _lon = request.location.longitude
-      @lat_lons = @lat_lons.within(params[:radius], :origin => [_lat, _lon])
-    end
+      ll = request.location
+      @coords = [ll.latitude, ll.longitude]
 
-    case params[:search_type]
-    when "cheapest"
-      @lat_lons = @lat_lons.order_by_cheapest
-    when "closest"
-      @lat_lons = @lat_lons.by_distance(:origin => params[:location])
+      @lat_lons = @lat_lons.within(params[:radius], :origin => @coords)
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => @coords)
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => @coords)
+      end
+
+    elsif (params[:location].present? && params[:radius].present?)
+      @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
+      @coords = Geocoder.coordinates(params[:location])
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => params[:location])
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => params[:location])
+      end
     end
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
