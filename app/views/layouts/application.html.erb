@@ -13,9 +13,21 @@
 
   <!-- Optional theme -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous"> -->
+  <meta property="og:description"   content="You're awesome" />
+  <meta property="og:image" content="http://clipartzebra.com/image.php?pic=/images/1/meme-faces/meme-faces-02.jpg" />
 
 </head>
 <body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId=180468718965041";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
   <nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -34,7 +46,8 @@
        <% else %>
        <li><a href="/signup">Sign Up</a></li>
        <li><a href="/login">Login</a></li>
-       <% end %>
+            <div class="fb-share-button" data-href="http://calm-brook-8022.herokuapp.com" data-layout="button"></div>
+        <% end %>
      </ul>
    </div>
  </nav>
