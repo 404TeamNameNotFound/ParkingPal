@@ -18,8 +18,7 @@ class ParkingMetersController < ApplicationController
   def parse
     clear_database
     parse_parking_meters
-    flash[:notice] = "Parking Meters updated"
-    redirect_to parking_meters_url
+    redirect_to root_path
   end
 
   # GET /parking_meters/1

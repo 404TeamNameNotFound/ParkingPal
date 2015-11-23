@@ -45,6 +45,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 end
+  gem 'geokit'
+  gem 'geokit-rails'
   gem 'geocoder'
   # gmaps4rails for googlemaps and overlays
   gem 'gmaps4rails', '~> 2.1', '>= 2.1.2'

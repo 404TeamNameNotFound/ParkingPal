@@ -11,21 +11,16 @@ $(function() {
 
 	function updateForm(data) {
 		coords = data.lat_lon;
-		var startTime = parseTime(data.start_time);
-		var endTime = parseTime(data.end_time);
+		// var startTime = parseTime(data.start_time);
+		// var endTime = parseTime(data.end_time);
 		$('#parking_meter_id').val(data.id);
 		$('#parking_meter_name').val(data.name);
 		$('#parking_meter_price').val(data.price);
 		$('#parking_meter_max_time').val(data.max_time);
-		$('#parking_meter_start_time').val(startTime);
-		$('#parking_meter_end_time').val(endTime);
+		$('#parking_meter_start_time').val(data.start_time);
+		$('#parking_meter_end_time').val(data.end_time);
 		$('#parking_meter_is_broken').prop('checked', data.is_broken);
 		$('#parking_meter_is_occupied').prop('checked', data.is_occupied);
-	}
-
-	function parseTime(time) {
-		var timeArray = time.split('T')[1].split(':');
-		return timeArray[0] + ':' + timeArray[1];
 	}
 
 	function submit() {
@@ -53,8 +48,8 @@ $(function() {
 				name: $('#parking_meter_name').val(),
 				price: $('#parking_meter_price').val(),
 				max_time: $('#parking_meter_max_time').val(),
-				start_time: toTime($('#parking_meter_start_time').val()),
-				end_time: toTime($('#parking_meter_end_time').val()),
+				start_time: $('#parking_meter_start_time').val(),
+				end_time: $('#parking_meter_end_time').val(),
 				is_broken: $('#parking_meter_is_broken').is(':checked'),
 				is_occupied: $('#parking_meter_is_occupied').is(':checked'),
 				lat_lon: coords
