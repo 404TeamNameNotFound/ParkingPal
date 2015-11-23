@@ -15,6 +15,7 @@ module ParkingMetersHelper
 
 		places = doc.xpath('.//Placemark')
 		places.each do |meter|
+			if meter.children.size == 9
 			temp_meter = ParkingMeter.new
 			meter.children.each do |node|
 				case node.node_name
@@ -27,6 +28,7 @@ module ParkingMetersHelper
 				end
 			end
 			temp_meter.save
+			end
 		end
 	end
 
