@@ -43,13 +43,15 @@
             <input type="text" class="form-control" name="location" id="location" placeholder="Enter a Location">
           </div>
           <div class="checkbox col-sm-offset-3 col-sm-9">
-            <label><input id="current_location" name="current_location" type="checkbox" value="1">Use current location</label>
+            <label><input id="current_location" name="current_location" type="checkbox" value="1" checked>Use current location</label>
           </div>
         </div>
         <div class="form-group">
           <label for="radius" class="col-sm-3 control-label">Radius:</label>
           <div class="col-sm-9">
-            <input type="number" min="0" class="form-control" name="radius" id="radius" placeholder="Enter a Radius" aria-required="true" required>
+            <div class="input-group">
+            <input type="number" min="0" step="any" class="form-control" name="radius" id="radius" placeholder="Enter a Radius" aria-required="true" required><div class="input-group-addon">m</div>
+          </div>
           </div>
         </div>
         <div class="form-group">
@@ -175,6 +177,15 @@ $('#mark-broken').click(function() {
 
 $('#mark-occupied').click(function() {
   updateTag('occupied');
+});
+
+
+$("#location").keyup(function () {
+    if ($(this).val() == "") {
+        $("#current_location").prop("checked", true);
+    } else {
+        $("#current_location").prop("checked", false);
+    }
 });
 
 </script>
