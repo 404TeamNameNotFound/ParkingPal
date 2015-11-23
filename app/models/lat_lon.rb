@@ -13,8 +13,8 @@ class LatLon < ActiveRecord::Base
 		includes(:parking_meter).where("parking_meters.name LIKE ?", "%#{search}%").references(:parking_meters)
 	end
 
-	def self.cheapest_meter
-		includes(:parking_meter).where("parking_meters.price = ?", minimum("parking_meters.price")).references(:parking_meters)
+	def self.order_by_cheapest
+		includes(:parking_meter).order('parking_meters.price ASC')
 	end
 
 	def self.no_broken

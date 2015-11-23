@@ -24,7 +24,12 @@ class LatLonsController < ApplicationController
       @lat_lons = @lat_lons.within(params[:radius], :origin => [_lat, _lon])
     end
 
-    @lat_lons = @lat_lons.cheapest_meter if params[:cheapest_meter].present?
+    case params[:search_type]
+    when "cheapest"
+      @lat_lons = @lat_lons.order_by_cheapest
+    when "closest"
+      @lat_lons = @lat_lons.by_distance(:origin => params[:location])
+    end
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
     @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
