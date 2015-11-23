@@ -91,13 +91,32 @@
         <div class="list-group" id="search-results-list">
         </div>
       </div>
-
+<header>
+  <meta property="og:title" content="Site Title" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://localhost:3000" />
+  <meta property="og:description" content="Page Description" />
+  <meta property="og:site_name" content="Parkingpal" />
+</header>
 
 
       <div class="panel panel-default" id="meter-details">
         <div class="panel-body" >
           <button type="button" class="btn btn-default" id="back-to-results">Back</button>
+
+
+          <div id="fb-root"></div>
+          <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId=946085948818735";
+              fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+          <div class="fb-share-button" data-href="http://localhost:3000" data-layout="button"></div>
+
           <div id="meter-heading">
+
             <h2>Meter No. <span id="meter-name">#</span></h1>
               <div id="meter-broken-occupied-labels">
                 <div><span class="label label-success" id="meter-broken">Not Broken</span></div>
