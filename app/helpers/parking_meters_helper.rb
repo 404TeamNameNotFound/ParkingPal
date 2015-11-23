@@ -15,18 +15,20 @@ module ParkingMetersHelper
 
 		places = doc.xpath('.//Placemark')
 		places.each do |meter|
-			temp_meter = ParkingMeter.new
-			meter.children.each do |node|
-				case node.node_name
-				when 'name'
-					temp_meter.name = node.text.to_i
-				when 'description'
-					parse_description(node, temp_meter)
-				when 'Point'
-					parse_point(node, temp_meter)
+			if meter.children.size == 9
+				temp_meter = ParkingMeter.new
+				meter.children.each do |node|
+					case node.node_name
+					when 'name'
+						temp_meter.name = node.text.to_i
+					when 'description'
+						parse_description(node, temp_meter)
+					when 'Point'
+						parse_point(node, temp_meter)
+					end
 				end
+				temp_meter.save
 			end
-			temp_meter.save
 		end
 	end
 
