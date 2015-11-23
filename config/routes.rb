@@ -20,6 +20,12 @@ Rails.application.routes.draw do
   get 'edit' => 'parking_meters#edit_arbitrary'
   patch 'update_meter' => 'parking_meters#update'
 
+  resources :users do
+    resources :parked_meters
+  end
+
+  # get 'user_meter' => ''
+
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

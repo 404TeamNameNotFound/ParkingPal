@@ -1,4 +1,4 @@
 class ParkedMeter < ActiveRecord::Base
-  belongs_to :parking_meter
-  has_one :user
+  has_one :parking_meter
+  belongs_to :user
 end

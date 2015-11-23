@@ -26,18 +26,20 @@ ActiveRecord::Schema.define(version: 20151120233718) do
   create_table "parked_meters", force: :cascade do |t|
     t.time     "time_left"
     t.integer  "parking_meter_id"
+    t.integer  "user_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
   add_index "parked_meters", ["parking_meter_id"], name: "index_parked_meters_on_parking_meter_id"
+  add_index "parked_meters", ["user_id"], name: "index_parked_meters_on_user_id"
 
   create_table "parking_meters", force: :cascade do |t|
     t.integer  "name"
     t.float    "price"
     t.float    "max_time"
-    t.float    "start_time"
-    t.float    "end_time"
+    t.integer  "start_time"
+    t.integer  "end_time"
     t.boolean  "is_broken",   default: false
     t.boolean  "is_occupied", default: false
     t.datetime "created_at",                  null: false
@@ -50,8 +52,13 @@ ActiveRecord::Schema.define(version: 20151120233718) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "role"
+    t.integer  "parked_meter_id"
+    t.integer  "parking_meter_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["parked_meter_id"], name: "index_users_on_parked_meter_id"
+  add_index "users", ["parking_meter_id"], name: "index_users_on_parking_meter_id"
 
 end

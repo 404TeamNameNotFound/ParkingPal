@@ -1,10 +1,11 @@
 class ParkedMetersController < ApplicationController
   before_action :set_parked_meter, only: [:show, :edit, :update, :destroy]
+  before_filter :load_parent
 
   # GET /parked_meters
   # GET /parked_meters.json
   def index
-    @parked_meters = ParkedMeter.all
+    @parked_meters = @user.parked_meter
   end
 
   # GET /parked_meters/1
@@ -70,5 +71,9 @@ class ParkedMetersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def parked_meter_params
       params.require(:parked_meter).permit(:time_left, :parking_meter_id)
+    end
+
+    def load_parent
+      @user = User.find(params[:user_id])
     end
 end
