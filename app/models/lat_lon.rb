@@ -10,7 +10,7 @@ class LatLon < ActiveRecord::Base
 	belongs_to :parking_meter
 
 	def self.search(search)
-		includes(:parking_meter).where("CAST(parking_meters.name AS CHAR) LIKE ?", "%#{search}%").references(:parking_meters)
+		includes(:parking_meter).where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{search}%").references(:parking_meters)
 	end
 
 	def self.order_by_cheapest
