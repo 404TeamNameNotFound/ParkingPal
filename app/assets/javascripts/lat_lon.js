@@ -32,8 +32,8 @@ function setMarkerColor(marker, broken, occupied) {
 	marker.setIcon(icon);
 }
 
-function createSearchResult(meter) {
-	return ('<button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id">' 
+function createSearchResult(meter, number) {
+	return ('<button type="button" class="list-group-item"><b> '+ number +'. &emsp; Meter No. </b><span id="results-meter-id">' 
 		+ meter.serviceObject.meter_name + '</span></button>');
 }
 
@@ -63,7 +63,7 @@ function populateSearchResults(markers) {
 		$empty.appendTo('#search-results-list');
 	}
 	for (var i=0; i<markers.length; i++) {
-		var $result = $(createSearchResult(markers[i]));
+		var $result = $(createSearchResult(markers[i], i+1));
 		$result.appendTo('#search-results-list');
 		bindResultToMarker($result, markers[i]);
 	}

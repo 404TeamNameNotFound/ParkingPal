@@ -3,11 +3,41 @@ class LatLonsController < ApplicationController
 
   before_action :set_lat_lon, only: [:show, :edit, :update, :destroy]
 
+
   # GET /lat_lons
   # GET /lat_lons.json
   def index
 
-    @lat_lons = LatLon.limit(100)
+    @lat_lons = LatLon.where(nil)
+
+    if params[:search]
+      @lat_lons = @lat_lons.search(params[:search])
+    end
+
+    if (params[:current_location].present? && params[:radius].present?)
+      ll = request.location
+      @coords = [ll.latitude, ll.longitude]
+
+      @lat_lons = @lat_lons.within(params[:radius], :origin => @coords)
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => @coords)
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => @coords)
+      end
+
+    elsif (params[:location].present? && params[:radius].present?)
+      @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
+      @coords = Geocoder.coordinates(params[:location])
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => params[:location])
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => params[:location])
+      end
+    end
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
     @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
@@ -17,6 +47,7 @@ class LatLonsController < ApplicationController
       marker.lat lat_lon.lat
       marker.lng lat_lon.lon
       meter = lat_lon.parking_meter
+
       color = "18bc9c"
       if meter.is_broken
         color = "e74c3c"
@@ -31,6 +62,7 @@ class LatLonsController < ApplicationController
       marker.json({ :meter_id => meter.id, :meter_name => meter.name })
     end
   end
+
 
   # GET /lat_lons/1
   # GET /lat_lons/1.json
@@ -96,4 +128,6 @@ class LatLonsController < ApplicationController
     def lat_lon_params
       params.require(:lat_lon).permit(:lat, :lon, :parking_meter_id)
     end
-end
+  end
+
+
