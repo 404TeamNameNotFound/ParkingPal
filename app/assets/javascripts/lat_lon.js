@@ -5,12 +5,29 @@ var resultClicked = false;
 
 $(function() {
 	$('#back-to-results').click(returnResults);
-	$('.list-group-item').click(function() {
-		var id = $(this).find('#results-meter-id').text();
-		console.log(id);
-		$.getJSON('/parking_meters/' + id + '.json', displayInfo);
-	})
+	// $('.list-group-item').click(function() {
+	// 	var id = $(this).find('#results-meter-id').text();
+	// 	console.log(id);
+	// 	$.getJSON('/parking_meters/' + id + '.json', displayInfo);
+	// })
+	$('#save-meter').click(function(e) {
+		e.stopImmediatePropagation(); // stop from firing twice
+		saveMeter();
+	});
 });
+
+function displayAlert(element, type, text) {
+	var childAlert = $(element + ' > .alert:first');
+	if (childAlert.length > 0) {
+		if (childAlert.hasClass(type)) {
+			childAlert.text(text);
+			return;
+		}
+		childAlert.remove();
+	}
+	var alert = '<div class="alert ' + type + '" role="alert">' + text + '</div>';
+	$(element).prepend(alert);
+}
 
 function setMarkerSize(marker, size) {
 	var icon = marker.getIcon();
@@ -189,4 +206,59 @@ function returnResults() {
 	$('#meter-details').hide();
 	$('#search-results').show();
 	setMarkerSize(currentMarker, new google.maps.Size(21, 34));
+}
+
+function floatHoursToMins(max_time) {
+	var str = max_time.toFixed(1);
+	var strArray = str.split(".");
+	var totalMins = strArray[0] * 60;
+	if (strArray.length > 1) {
+		totalMins += parseInt(strArray[1]);
+	}
+	return totalMins;
+}
+
+function saveMeter() {
+	var hours = parseInt($('#save-meter-hours').val());
+	var minutes = parseInt($('#save-meter-minutes').val());
+
+	if (isNaN(hours) || isNaN(minutes)) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', 'You must enter hours and minutes.');
+		return;
+	}
+
+	var totalMins = hours * 60 + minutes;
+	var maxTimeMins = floatHoursToMins(currentData.max_time);
+
+	if (totalMins > maxTimeMins) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', "Exceeds meter's max time (" + currentData.max_time + " hrs)");
+		return;
+	}
+
+	var currentTime = new Date();
+	currentTime.setHours(currentTime.getHours() + hours);
+	currentTime.setMinutes(currentTime.getMinutes() + minutes);
+
+	console.log(currentTime);
+
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	// var userId = <%= current_user.id %>
+
+	$.ajax({
+		data: { parked_meter: {time_left: currentTime, parking_meter_id: currentData.id} },
+		method: 'PATCH',
+		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
+		success: function() {
+			displayAlert('#save-meter-modal-body', 'alert-success', 'Success');
+		}
+	})
+
+	
 }

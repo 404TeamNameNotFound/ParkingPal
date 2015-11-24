@@ -1,11 +1,10 @@
 class ParkedMetersController < ApplicationController
-  before_action :set_parked_meter, only: [:show, :edit, :update, :destroy]
-  before_filter :load_parent
+  before_action :load_parent, :set_parked_meter, only: [:show, :edit, :update, :destroy]
 
   # GET /parked_meters
   # GET /parked_meters.json
   def index
-    @parked_meters = @user.parked_meter
+    @parked_meters = @user.parked_meter.all
   end
 
   # GET /parked_meters/1
@@ -65,7 +64,7 @@ class ParkedMetersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_parked_meter
-      @parked_meter = ParkedMeter.find(params[:id])
+      @parked_meter = @user.parked_meter
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
