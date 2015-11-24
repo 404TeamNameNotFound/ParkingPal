@@ -126,7 +126,7 @@ function displayInfo(data) {
 
 	$('#meter-name').text(data.name);
 	$('#meter-price').text('$' + data.price);
-	$('#meter-max-time').text(data.max_time + ' hrs');
+	$('#meter-max-time').text(data.max_time == 0? "No Time Limit" : data.max_time + ' hrs');
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
