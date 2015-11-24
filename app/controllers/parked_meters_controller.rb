@@ -40,6 +40,8 @@ class ParkedMetersController < ApplicationController
   # PATCH/PUT /parked_meters/1
   # PATCH/PUT /parked_meters/1.json
   def update
+    # convert from milliseconds from epoch to Ruby time object
+    params[:parked_meter][:time_left] = Time.at(Integer(params[:parked_meter][:time_left]) / 1000.0)
     respond_to do |format|
       if @parked_meter.update(parked_meter_params)
         format.html { redirect_to @parked_meter, notice: 'Parked meter was successfully updated.' }
@@ -69,7 +71,9 @@ class ParkedMetersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def parked_meter_params
+      puts params[:parked_meter][:time_left]
       params.require(:parked_meter).permit(:time_left, :parking_meter_id)
+      
     end
 
     def load_parent
