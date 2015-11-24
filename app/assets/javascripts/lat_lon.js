@@ -2,7 +2,6 @@ var currentMarker;
 var currentData;
 var resultClicked = false;
 
-
 $(function() {
 	$('#back-to-results').click(returnResults);
 	$('.list-group-item').click(function() {
@@ -108,17 +107,6 @@ function toggleBrokenOccupiedLabels(broken, occupied) {
 	$('#tag-occupied').prop('checked', occupied);
 }
 
-// function updateFb() {
-// 	(function(d, s, id) {
-//             var js, fjs = d.getElementsByTagName(s)[0];
-//             if (d.getElementById(id)) return;
-//             js = d.createElement(s); js.id = id;
-//             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
-//             fjs.parentNode.insertBefore(js, fjs);
-//             console.log('fb updated');
-//           }(document, 'script', 'facebook-jssdk'));
-// }
-
 function displayInfo(data) {
 	currentData = data;
 	console.log(data);
@@ -132,9 +120,8 @@ function displayInfo(data) {
 
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
-    $(".fb-share-button").attr("data-href", "http://www.test"+data.name+".ca");
+	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
 
-    // updateFb();
 	$('#meter-details').show();
 }
 
