@@ -39,13 +39,13 @@ function createSearchResult(meter, number) {
 function bindResultToMarker($result, marker) {
 	$result.click(function() {
 		resultClicked = true;
-		handler.getMap().setZoom(16);
+		handler.getMap().setZoom(19);
 		marker.setMap(handler.getMap());
 		marker.panTo();
 		google.maps.event.trigger(marker.getServiceObject(), 'click');
 	})
 	$result.mouseover(function() {
-		setMarkerSize(marker.getServiceObject(), new google.maps.Size(28, 45));
+		setMarkerSize(marker.getServiceObject(), new google.maps.Size(34, 50));
 		marker.getServiceObject().setZIndex(google.maps.Marker.MAX_ZINDEX);
 	})
 	$result.mouseleave(function() {
@@ -70,7 +70,7 @@ function populateSearchResults(markers) {
 
 function onMarkerClick(marker, event){
 	return function(event){
-		var selectedSize = new google.maps.Size(28, 45);
+		var selectedSize = new google.maps.Size(34, 50);
 		var regularSize = new google.maps.Size(21, 34);
 
 		if(currentMarker) {
