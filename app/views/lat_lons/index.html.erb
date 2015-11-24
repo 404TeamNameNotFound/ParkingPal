@@ -147,6 +147,7 @@
 </div>
 
 <script type="text/javascript">
+
 handler = Gmaps.build('Google');
 handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
   markers = <%=raw @hash.to_json %>
@@ -158,18 +159,24 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     marker.serviceObject.set('meter_name', m.meter_name);
     return marker;
   });
+
   <% if @coords %>
     handler.addMarker({
       lat: <%=@coords[0] %>,
       lng: <%=@coords[1] %>,
       picture: {
         url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
-        width:  36,
-        height: 36
+        width:  28,
+        height: 45
       }
     });
   <% end %>
-  
+
+  if (markers.length == 0) {
+    var centerpoint = new google.maps.LatLng(49.2827, -123.1207);
+    handler.map.centerOn(centerpoint);
+  }
+    
   handler.bounds.extendWith(Gmaps.store.markers);
   handler.fitMapToBounds();
 
