@@ -108,6 +108,17 @@ function toggleBrokenOccupiedLabels(broken, occupied) {
 	$('#tag-occupied').prop('checked', occupied);
 }
 
+// function updateFb() {
+// 	(function(d, s, id) {
+//             var js, fjs = d.getElementsByTagName(s)[0];
+//             if (d.getElementById(id)) return;
+//             js = d.createElement(s); js.id = id;
+//             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+//             fjs.parentNode.insertBefore(js, fjs);
+//             console.log('fb updated');
+//           }(document, 'script', 'facebook-jssdk'));
+// }
+
 function displayInfo(data) {
 	currentData = data;
 	console.log(data);
@@ -121,6 +132,9 @@ function displayInfo(data) {
 
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
+    $(".fb-share-button").attr("data-href", "http://www.test"+data.name+".ca");
+
+    // updateFb();
 	$('#meter-details').show();
 }
 
