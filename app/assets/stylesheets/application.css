@@ -15,6 +15,11 @@
  *= require bootstrap
  */
 
+h4{
+    margin: auto;
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
 /*html, body {
     background: #fff;
     font-family: Helvetica, sans-serif;
