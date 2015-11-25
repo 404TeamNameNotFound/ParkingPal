@@ -10,25 +10,29 @@ class LatLonsController < ApplicationController
 
     @lat_lons = LatLon.where(nil)
 
-    if params[:search]
+    if params[:search].present?
       @lat_lons = @lat_lons.search(params[:search])
-    end
 
-    if (params[:location].present? && params[:radius].present?)
-      @lat_lons = @lat_lons.within(params[:radius], :origin => params[:location])
-    end
+    elsif params[:radius].present?
 
-    if (params[:current_location].present? && params[:radius].present?)
-      _lat = request.location.latitude
-      _lon = request.location.longitude
-      @lat_lons = @lat_lons.within(params[:radius], :origin => [_lat, _lon])
-    end
+      if params[:current_location].present?
+        ll = request.location
+        @coords = [ll.latitude, ll.longitude]
+      elsif params[:location].present?
+        @coords = Geocoder.coordinates(params[:location])
+      end
 
-    case params[:search_type]
-    when "cheapest"
-      @lat_lons = @lat_lons.order_by_cheapest
-    when "closest"
-      @lat_lons = @lat_lons.by_distance(:origin => params[:location])
+      @lat_lons = @lat_lons.within(params[:radius], :origin => @coords)
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => @coords)
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => @coords)
+      end
+
+    else
+      @lat_lons = LatLon.none
     end
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
@@ -53,6 +57,7 @@ class LatLonsController < ApplicationController
        })
       marker.json({ :meter_id => meter.id, :meter_name => meter.name })
     end
+
   end
 
 

@@ -2,7 +2,6 @@ var currentMarker;
 var currentData;
 var resultClicked = false;
 
-
 $(function() {
 	$('#back-to-results').click(returnResults);
 	$('.list-group-item').click(function() {
@@ -32,8 +31,8 @@ function setMarkerColor(marker, broken, occupied) {
 	marker.setIcon(icon);
 }
 
-function createSearchResult(meter) {
-	return ('<button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id">' 
+function createSearchResult(meter, number) {
+	return ('<button type="button" class="list-group-item"><b> '+ number +'. &emsp; Meter No. </b><span id="results-meter-id">' 
 		+ meter.serviceObject.meter_name + '</span></button>');
 }
 
@@ -63,7 +62,7 @@ function populateSearchResults(markers) {
 		$empty.appendTo('#search-results-list');
 	}
 	for (var i=0; i<markers.length; i++) {
-		var $result = $(createSearchResult(markers[i]));
+		var $result = $(createSearchResult(markers[i], i+1));
 		$result.appendTo('#search-results-list');
 		bindResultToMarker($result, markers[i]);
 	}
@@ -115,11 +114,13 @@ function displayInfo(data) {
 
 	$('#meter-name').text(data.name);
 	$('#meter-price').text('$' + data.price);
-	$('#meter-max-time').text(data.max_time + ' hrs');
+	$('#meter-max-time').text(data.max_time == 0? "No Time Limit" : data.max_time + ' hrs');
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
+
+	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
 
 	$('#meter-details').show();
 }

@@ -85,21 +85,20 @@
       </form>
     </div>
 
-
     <div id="search-results">
 
-      <h2>Results:</small></h2>
+      <h2><small>Results:</small></h2>
       <br>
       <div class="list-group" id="search-results-list">
       </div>
     </div>
 
-
     <div class="panel panel-default" id="meter-details">
       <div class="panel-body" >
         <button type="button" class="btn btn-default" id="back-to-results">Back</button>
+
         <div id="meter-heading">
-          <h2>Meter No. <span id="meter-name">#</span></h1>
+          <h2>Meter No. <span id="meter-name">#</span></h2>
             <div id="meter-broken-occupied-labels">
               <div><span class="label label-success" id="meter-broken">Not Broken</span></div>
               <div><span class="label label-success" id="meter-occupied">Not Occupied</span></div>
@@ -125,6 +124,7 @@
               </tr>
             </tbody>
           </table>
+          <a id="fb-share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com" target="_blank">Share Parking Meter on Facebook!</a>
           <% if current_user %>
           <h3>Edit Tags:</h3>
           <br>
@@ -147,9 +147,9 @@
 </div>
 
 <script type="text/javascript">
+
 handler = Gmaps.build('Google');
 handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-  console.log(<%=raw @hash.to_json %>);
   markers = <%=raw @hash.to_json %>
 
   Gmaps.store = {}
@@ -159,6 +159,24 @@ handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
     marker.serviceObject.set('meter_name', m.meter_name);
     return marker;
   });
+
+  <% if @coords %>
+    handler.addMarker({
+      lat: <%=@coords[0] %>,
+      lng: <%=@coords[1] %>,
+      picture: {
+        url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
+        width:  28,
+        height: 45
+      }
+    });
+  <% end %>
+
+  if (markers.length == 0) {
+    var centerpoint = new google.maps.LatLng(49.2827, -123.1207);
+    handler.map.centerOn(centerpoint);
+  }
+    
   handler.bounds.extendWith(Gmaps.store.markers);
   handler.fitMapToBounds();
 
@@ -178,7 +196,6 @@ $('#mark-broken').click(function() {
 $('#mark-occupied').click(function() {
   updateTag('occupied');
 });
-
 
 $("#location").keyup(function () {
     if ($(this).val() == "") {
