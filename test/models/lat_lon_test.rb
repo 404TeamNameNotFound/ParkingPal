@@ -41,6 +41,12 @@ class LatLonTest < ActiveSupport::TestCase
   	assert_equal(4, ParkingMeter.where("start_time < ? and end_time > ?", Time.parse("1:00 PM").seconds_since_midnight(), Time.parse("1:00 PM").seconds_since_midnight()).count)
 
   	assert_equal(1, ParkingMeter.where("start_time < ? and end_time > ?", Time.parse("1:00 AM").seconds_since_midnight(), Time.parse("1:00 AM").seconds_since_midnight()).count)
-  end
+	end
+
+	test "search meter id" do
+		assert_equal(parking_meters(:pm_one), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{11111}%").first)
+		assert_equal(parking_meters(:pm_two), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{22222}%").first)
+		assert_equal(parking_meters(:pm_three), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{33333}%").first)
+	end
 
 end
