@@ -1,3 +1,6 @@
+Geokit::default_units = :kms # others :kms, :nms, :meters
+Geokit::default_formula = :flat
+
 class LatLonsController < ApplicationController
   # before_action :require_admin
 
@@ -21,6 +24,10 @@ class LatLonsController < ApplicationController
         @coords = Geocoder.coordinates(params[:location])
       end
 
+      if !(@coords)
+        @coords = [0, 0]
+      end
+
       @lat_lons = @lat_lons.within(params[:radius], :origin => @coords)
 
       case params[:search_type]
@@ -29,6 +36,7 @@ class LatLonsController < ApplicationController
       when "closest"
         @lat_lons = @lat_lons.by_distance(:origin => @coords)
       when "optimal"
+        @lat_lons = @lat_lons.sort_by{ |l| l.distance_to(@coords)*params[:price].to_f + l.parking_meter.price}
       end
 
     else

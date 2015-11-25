@@ -23,192 +23,209 @@
 
       <div class="collapse" id="collapseID">
         <form action="/lat_lons" method="get" class="form-horizontal">
-        <div class="input-group">
-          <input type="text" class="form-control" name="search" id="search" placeholder="Search by ID...">
-          <span class="input-group-btn">
-            <button type="submit" class="btn btn-default" >Search</button>
-          </span>
-        </div>
-      </form>
-      <br>
-    </div>
-
-    <div class="collapse" id="collapseLocation">
-      <form action="/lat_lons" method="get" class="form-horizontal">
-        <div class="form-group">
-          <label for="location" class="col-sm-3 control-label">Location:</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" name="location" id="location" placeholder="Enter a Location">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search" id="search" placeholder="Search by ID...">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default" >Search</button>
+            </span>
           </div>
-          <div class="checkbox col-sm-offset-3 col-sm-9">
-            <label><input id="current_location" name="current_location" type="checkbox" value="1" checked>Use current location</label>
-            <input type="hidden" class="form-control" name="geolat" id="geolat" style="display: none;">
-            <input type="hidden" class="form-control" name="geolon" id="geolon" style="display: none;">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="radius" class="col-sm-3 control-label">Radius:</label>
-          <div class="col-sm-9">
-            <div class="input-group">
-            <input type="number" min="0" step="any" class="form-control" name="radius" id="radius" placeholder="Enter a Radius" aria-required="true" required><div class="input-group-addon">m</div>
-          </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="search_type" class="col-sm-3 control-label">Order By: </label>
-          <div class="col-sm-9">
-            <select name="search_type" id="search_type" class="form-control">
-              <option value="cheapest">Cheapest</option>
-              <option value="closest">Closest</option>
-              <option value="optimal">Optimal</option>
-            </select> 
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-sm-3 control-label">Filter By:</label>
-          <div class="checkbox col-sm-9">
-            <div class="checkbox">
-              <label><input id="no_broken" name="no_broken" type="checkbox" value="true"> No Broken</label>
-            </div>
-            <div class="checkbox">
-              <label><input id="no_occupied" name="no_occupied" type="checkbox" value="true"> No Occupied</label>
-            </div>
-            <div class="checkbox">
-              <label><input id="no_after_hours" name="no_after_hours" type="checkbox" value="true"> No After Hours</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-3 col-sm-9">
-            <button type="submit" class="btn btn-default" >Search</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <div id="search-results">
-      <h2>Results:</small></h2>
-      <nav>
-        <ul id="pager" class="pager">
-          <li><a id="prev" >Previous</a></li>
-          <li><a id="next" >Next</a></li>
-        </ul>
-      </nav>
-      <div class="list-group" id="search-results-list">
+        </form>
+        <br>
       </div>
-    </div>
 
-    <div class="panel panel-default" id="meter-details">
-      <div class="panel-body" >
-        <button type="button" class="btn btn-default" id="back-to-results">Back</button>
-
-        <div id="meter-heading">
-          <h2>Meter No. <span id="meter-name">#</span></h1>
-            <div id="meter-broken-occupied-labels">
-              <div><span class="label label-success" id="meter-broken">Not Broken</span></div>
-              <div><span class="label label-success" id="meter-occupied">Not Occupied</span></div>
+      <div class="collapse" id="collapseLocation">
+        <form action="/lat_lons" method="get" class="form-horizontal">
+          <div class="form-group">
+            <label for="location" class="col-sm-3 control-label">Location:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="location" id="location" placeholder="Enter a Location">
+            </div>
+            <div class="checkbox col-sm-offset-3 col-sm-9">
+              <label><input id="current_location" name="current_location" type="checkbox" value="1" checked>Use current location</label>
+              <input type="hidden" class="form-control" name="geolat" id="geolat" style="display: none;">
+              <input type="hidden" class="form-control" name="geolon" id="geolon" style="display: none;">
             </div>
           </div>
-          <table class="table">
-            <tbody>
-              <tr>
-                <td>Price:</td>
-                <td id="meter-price"></td>
-              </tr>
-              <tr>
-                <td>Max Time:</td>
-                <td id="meter-max-time"></td>
-              </tr>
-              <tr>
-                <td>Start Time:</td>
-                <td id="meter-start-time"></td>
-              </tr>
-              <tr>
-                <td>End Time:</td>
-                <td id="meter-end-time"></td>
-              </tr>
-            </tbody>
-          </table>
-          <a id="fb-share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com" target="_blank">Share Parking Meter on Facebook!</a>
-          <% if current_user %>
-          <h3>Edit Tags:</h3>
-          <br>
-          <div class="btn-group btn-group-justified" role="group">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="mark-broken">Broken</button>
+          <div class="form-group">
+            <label for="radius" class="col-sm-3 control-label">Radius:</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="number" min="0" step="any" class="form-control" name="radius" id="radius" placeholder="Enter a Radius" aria-required="true" required><div class="input-group-addon">m</div>
+              </div>
             </div>
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default" id="mark-occupied">Occupied</button>
+          </div>
+          <div class="form-group">
+            <label for="search_type" class="col-sm-3 control-label">Order By: </label>
+            <div class="col-sm-9">
+              <select name="search_type" id="search_type" class="form-control">
+                <option value="cheapest">Cheapest</option>
+                <option value="closest">Closest</option>
+                <option value="optimal">Optimal</option>
+              </select> 
+            </div>
+          </div>
+          <div class="form-group" id="price_group" style="display: none;">
+            <label for="price" class="col-sm-3 control-label">Price of Walking:</label>
+            <div class="col-sm-9">
+              <div class="input-group">
+                <input type="number" min="0" step="any" class="form-control" name="price" id="price" placeholder="Enter a Price"><div class="input-group-addon">$/km</div>
+              </div>
             </div>
           </div>
 
-          <% end %>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Filter By:</label>
+            <div class="checkbox col-sm-9">
+              <div class="checkbox">
+                <label><input id="no_broken" name="no_broken" type="checkbox" value="true"> No Broken</label>
+              </div>
+              <div class="checkbox">
+                <label><input id="no_occupied" name="no_occupied" type="checkbox" value="true"> No Occupied</label>
+              </div>
+              <div class="checkbox">
+                <label><input id="no_after_hours" name="no_after_hours" type="checkbox" value="true"> No After Hours</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-default" >Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="search-results">
+        <h2>Results:</small></h2>
+        <nav>
+          <ul id="pager" class="pager">
+            <li><a id="prev" >Previous</a></li>
+            <li><a id="next" >Next</a></li>
+          </ul>
+        </nav>
+        <div class="list-group" id="search-results-list">
         </div>
       </div>
 
+      <div class="panel panel-default" id="meter-details">
+        <div class="panel-body" >
+          <button type="button" class="btn btn-default" id="back-to-results">Back</button>
+
+          <div id="meter-heading">
+            <h2>Meter No. <span id="meter-name">#</span></h1>
+              <div id="meter-broken-occupied-labels">
+                <div><span class="label label-success" id="meter-broken">Not Broken</span></div>
+                <div><span class="label label-success" id="meter-occupied">Not Occupied</span></div>
+              </div>
+            </div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>Price:</td>
+                  <td id="meter-price"></td>
+                </tr>
+                <tr>
+                  <td>Max Time:</td>
+                  <td id="meter-max-time"></td>
+                </tr>
+                <tr>
+                  <td>Start Time:</td>
+                  <td id="meter-start-time"></td>
+                </tr>
+                <tr>
+                  <td>End Time:</td>
+                  <td id="meter-end-time"></td>
+                </tr>
+              </tbody>
+            </table>
+            <a id="fb-share-link" href="https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com" target="_blank">Share Parking Meter on Facebook!</a>
+            <% if current_user %>
+            <h3>Edit Tags:</h3>
+            <br>
+            <div class="btn-group btn-group-justified" role="group">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" id="mark-broken">Broken</button>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default" id="mark-occupied">Occupied</button>
+              </div>
+            </div>
+
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+      <div id="map" class="col-sm-9"></div>
     </div>
-    <div id="map" class="col-sm-9"></div>
   </div>
-</div>
 
-<script type="text/javascript">
+  <script type="text/javascript">
 
-handler = Gmaps.build('Google');
-markers = <%=raw @hash.to_json %>
+  handler = Gmaps.build('Google');
+  markers = <%=raw @hash.to_json %>
 
-coords = [];
-<% if @coords %>
-coords = <%= @coords %>; 
-console.log("Used coords from controller");
-<% end %> 
+  coords = [];
+  <% if @coords %>
+  coords = <%= @coords %>; 
+  console.log("Used coords from controller");
+  <% end %> 
 
-if(navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(setLocation);
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(setLocation);
 
-  function setLocation(position) {
-    console.log(position.coords.latitude);
-    console.log(position.coords.longitude);
-    $('#geolat').val(position.coords.latitude);
-    $('#geolon').val(position.coords.longitude);
+    function setLocation(position) {
+      console.log(position.coords.latitude);
+      console.log(position.coords.longitude);
+      $('#geolat').val(position.coords.latitude);
+      $('#geolon').val(position.coords.longitude);
+    }
   }
-}
-    
-index = 0;
-max = markers.length
-populateMap(handler, markers.slice(index, 10), coords, index);
 
-$('#next').click(function() {
-  if (index+10 < max) {
-    index += 10
-    clearMapList(handler); 
-    populateMap(handler, markers.slice(index, index+10), coords, index); 
-  }
-});
+  index = 0;
+  max = markers.length
+  populateMap(handler, markers.slice(index, 10), coords, index);
 
-$('#prev').click(function() {
-  if (index-10 >= 0) {
-    index -= 10
-    clearMapList(handler);
-    populateMap(handler, markers.slice(index, index+10), coords, index);
-  }
-});
+  $('#next').click(function() {
+    if (index+10 < max) {
+      index += 10
+      clearMapList(handler); 
+      populateMap(handler, markers.slice(index, index+10), coords, index); 
+    }
+  });
 
-$('#mark-broken').click(function() {
-  updateTag('broken');
-});
+  $('#prev').click(function() {
+    if (index-10 >= 0) {
+      index -= 10
+      clearMapList(handler);
+      populateMap(handler, markers.slice(index, index+10), coords, index);
+    }
+  });
 
-$('#mark-occupied').click(function() {
-  updateTag('occupied');
-});
+  $('#mark-broken').click(function() {
+    updateTag('broken');
+  });
 
-$("#location").keyup(function () {
+  $('#mark-occupied').click(function() {
+    updateTag('occupied');
+  });
+
+  $("#location").keyup(function () {
     if ($(this).val() == "") {
-        $("#current_location").prop("checked", true);
+      $("#current_location").prop("checked", true);
     } else {
-        $("#current_location").prop("checked", false);
+      $("#current_location").prop("checked", false);
+    }
+  });
+
+  $('select[name=search_type]').change(function () {
+    if ($(this).val() == 'optimal') {
+        $('#price_group').show();
+    } else {
+        $('#price_group').hide();
     }
 });
 
-</script>
+  </script>
 
 
