@@ -47,6 +47,7 @@ class LatLonTest < ActiveSupport::TestCase
 		assert_equal(parking_meters(:pm_one), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{11111}%").first)
 		assert_equal(parking_meters(:pm_two), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{22222}%").first)
 		assert_equal(parking_meters(:pm_three), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{33333}%").first)
+		assert_equal(parking_meters(:pm_four), ParkingMeter.where("CAST(parking_meters.name as TEXT) LIKE ?", "%#{44444}%").first)
 	end
 
 	test "cheapest meter" do
