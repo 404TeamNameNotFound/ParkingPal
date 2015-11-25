@@ -1,15 +1,7 @@
 <h1>Editing Lat Lon</h1>
-<% if current_user && current_user.admin? %>
 
 <%= render 'form' %>
 
 <%= link_to 'Show', @lat_lon %> |
 <%= link_to 'Back', lat_lons_path %>
 
-
-<% else %>
-    <h1 style="color:#b80001">You do not have access to this page!</h1>
-    <p> You need to be an admin to see this page.</p>
-    <%= link_to 'Go back to the home page', '/' %>
-    <img src="http://memesvault.com/wp-content/uploads/Sad-Meme-Face-10.png" style="width:128px;height:128px;">
-<% end %>

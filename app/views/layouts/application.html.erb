@@ -28,16 +28,15 @@
     </div>
     <ul class="nav navbar-nav navbar-right">
       <% if current_user %>
-          <p class="navbar-text">Welcome back <%= current_user.email %>!</p>
+          <p class="navbar-text">Welcome back, <%= current_user.email %>!</p>
           <li><%= link_to "Log out", logout_path, method: "delete" %></li>
           <% if current_user && current_user.admin? %>
-
-              <li><a href="/update">Update</a></li>
+              <li><a href="/update" onclick="return confirm('Are you sure you want to update the database? This may take some time.');">Update</a></li>
               <li><a href="/edit">Edit</a></li>
           <%end%>
       <% else %>
-          <li><a href="/signup">Sign Up</a></li>
           <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Sign Up</a></li>
       <% end %>
     </ul>
   </div>

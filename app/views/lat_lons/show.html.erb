@@ -1,8 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 
-<% if current_user && current_user.admin? %>
-
     <p>
   <strong>Lat:</strong>
   <%= @lat_lon.lat %>
@@ -22,5 +20,4 @@
 <%= link_to 'Edit', edit_lat_lon_path(@lat_lon) %> |
 <%= link_to 'Back', lat_lons_path %>
 
-<% end %>
 
