@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20151120233718) do
   add_index "lat_lons", ["parking_meter_id"], name: "index_lat_lons_on_parking_meter_id"
 
   create_table "parked_meters", force: :cascade do |t|
-    t.time     "time_left"
+    t.datetime "time_left"
     t.integer  "parking_meter_id"
     t.integer  "user_id"
     t.datetime "created_at",       null: false

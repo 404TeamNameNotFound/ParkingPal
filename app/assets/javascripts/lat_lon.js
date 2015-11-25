@@ -252,7 +252,7 @@ function saveMeter() {
 	// var userId = <%= current_user.id %>
 
 	$.ajax({
-		data: { parked_meter: {time_left: parseInt(currentTime.getTime()), parking_meter_id: currentData.id} },
+		data: { parked_meter: {time_left: currentTime.getTime(), parking_meter_id: currentData.id} },
 		method: 'PATCH',
 		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
 		success: function() {

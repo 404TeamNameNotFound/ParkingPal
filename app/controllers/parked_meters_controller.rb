@@ -71,6 +71,7 @@ class ParkedMetersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def parked_meter_params
+      puts '=============================='
       puts params[:parked_meter][:time_left]
       params.require(:parked_meter).permit(:time_left, :parking_meter_id)
       
