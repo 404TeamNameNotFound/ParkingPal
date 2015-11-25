@@ -84,9 +84,13 @@
     </div>
 
     <div id="search-results">
-
       <h2>Results:</small></h2>
-      <br>
+      <nav>
+        <ul id="pager" class="pager">
+          <li><a id="prev" >Previous</a></li>
+          <li><a id="next" >Next</a></li>
+        </ul>
+      </nav>
       <div class="list-group" id="search-results-list">
       </div>
     </div>
@@ -147,48 +151,32 @@
 <script type="text/javascript">
 
 handler = Gmaps.build('Google');
-handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-  markers = <%=raw @hash.to_json %>
+markers = <%=raw @hash.to_json %>
 
-  Gmaps.store = {}
-  Gmaps.store.markers = markers.map(function(m) {
-    marker = handler.addMarker(m);
-    marker.serviceObject.set('meter_id', m.meter_id);
-    marker.serviceObject.set('meter_name', m.meter_name);
-    return marker;
-  });
+coords = [];
+<% if @coords %>
+coords = <%= @coords %>; 
+<% end %> 
 
-    <% if @coords %>
-    handler.addMarker({
-      lat: <%=@coords[0] %>,
-      lng: <%=@coords[1] %>,
-      picture: {
-        url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
-        width:  28,
-        height: 45
-      }
-    });
-  <% end %>
+index = 0;
+max = markers.length
+populateMap(handler, markers.slice(index, 10), coords, index);
 
-  if (markers.length == 0) {
-    var centerpoint = new google.maps.LatLng(49.240021, -123.091008);
-    handler.map.centerOn(centerpoint);
-    handler.getMap().setZoom(12);
+$('#next').click(function() {
+  if (index+10 < max) {
+    index += 10
+    clearMapList(handler); 
+    populateMap(handler, markers.slice(index, index+10), coords, index); 
   }
-    
-  handler.bounds.extendWith(Gmaps.store.markers);
-  handler.fitMapToBounds();
-
-  for (var i = 0; i <  Gmaps.store.markers.length; ++i) {
-    var marker = Gmaps.store.markers[i];
-    google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, window.event));
-  }
-
-  populateSearchResults(Gmaps.store.markers);
-
 });
 
-
+$('#prev').click(function() {
+  if (index-10 >= 0) {
+    index -= 10
+    clearMapList(handler);
+    populateMap(handler, markers.slice(index, index+10), coords, index);
+  }
+});
 
 $('#mark-broken').click(function() {
   updateTag('broken');

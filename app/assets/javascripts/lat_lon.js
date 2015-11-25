@@ -29,10 +29,13 @@ function setMarkerColor(marker, broken, occupied) {
 	var icon = marker.getIcon();
 	icon.url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000";
 	marker.setIcon(icon);
+
+	markers[marker.index].picture.url = icon.url;
+	console.log(marker.index);
 }
 
 function createSearchResult(meter, number) {
-	return ('<button type="button" class="list-group-item"><b> '+ number +'. &emsp; Meter No. </b><span id="results-meter-id">' 
+	return ('<button type="button" class="list-group-item search-result-item"><b> '+ number +'. &emsp; Meter No. </b><span id="results-meter-id">' 
 		+ meter.serviceObject.meter_name + '</span></button>');
 }
 
@@ -55,14 +58,14 @@ function bindResultToMarker($result, marker) {
 	})
 }
 
-function populateSearchResults(markers) {
+function populateSearchResults(markers, index) {
 	console.log(markers)
 	if (markers.length == 0) {
 		var $empty = $('<div class="well">No meters to display.</div>');
 		$empty.appendTo('#search-results-list');
 	}
 	for (var i=0; i<markers.length; i++) {
-		var $result = $(createSearchResult(markers[i], i+1));
+		var $result = $(createSearchResult(markers[i], index+i+1));
 		$result.appendTo('#search-results-list');
 		bindResultToMarker($result, markers[i]);
 	}
@@ -82,6 +85,7 @@ function onMarkerClick(marker, event){
 		marker.setZIndex(google.maps.Marker.MAX_ZINDEX);
 
 		$.getJSON('/parking_meters/' + marker.meter_id + '.json', displayInfo);
+		console.log('click', marker);
 		currentMarker = marker;
 	}
 }
@@ -190,4 +194,53 @@ function returnResults() {
 	$('#meter-details').hide();
 	$('#search-results').show();
 	setMarkerSize(currentMarker, new google.maps.Size(21, 34));
+}
+
+function populateMap(handler, markers, coords, index) {
+	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+
+		Gmaps.store = {}
+		Gmaps.store.markers = markers.map(function(m, i) {
+			marker = handler.addMarker(m);
+			marker.serviceObject.set('meter_id', m.meter_id);
+			marker.serviceObject.set('meter_name', m.meter_name);
+			marker.serviceObject.set('index', i+index);
+			return marker;
+		});
+
+		if (coords.length != 0) {
+			handler.addMarker({
+				lat: coords[0],
+				lng: coords[1],
+				picture: {
+					url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
+					width:  28,
+					height: 45
+				}
+			});
+		}
+
+		if (markers.length == 0) {
+			var centerpoint = new google.maps.LatLng(49.240021, -123.091008);
+			handler.map.centerOn(centerpoint);
+			handler.getMap().setZoom(12);
+		}
+
+		handler.bounds.extendWith(Gmaps.store.markers);
+		handler.fitMapToBounds();
+
+		for (var i = 0; i <  Gmaps.store.markers.length; ++i) {
+			var marker = Gmaps.store.markers[i];
+			google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, window.event));
+		}
+
+		populateSearchResults(Gmaps.store.markers, index);
+
+	});
+}
+
+function clearMapList(handler) {
+	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+	});
+	$('.search-result-item').remove()
 }
