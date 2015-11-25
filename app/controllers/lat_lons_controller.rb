@@ -16,8 +16,7 @@ class LatLonsController < ApplicationController
     elsif params[:radius].present?
 
       if params[:current_location].present?
-        ll = request.location
-        @coords = [ll.latitude, ll.longitude]
+        @coords = [params[:geolat].to_f, params[:geolon].to_f]
       elsif params[:location].present?
         @coords = Geocoder.coordinates(params[:location])
       end
@@ -29,6 +28,7 @@ class LatLonsController < ApplicationController
         @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => @coords)
       when "closest"
         @lat_lons = @lat_lons.by_distance(:origin => @coords)
+      when "optimal"
       end
 
     else

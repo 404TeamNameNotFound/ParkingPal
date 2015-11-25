@@ -218,7 +218,24 @@ function populateMap(handler, markers, coords, index) {
 					height: 45
 				}
 			});
+		} else {
+			
+			if(navigator.geolocation)
+				navigator.geolocation.getCurrentPosition(displayOnMap);
+
+			function displayOnMap(position){
+				var marker = handler.addMarker({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude,
+					picture: {
+						url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
+						width:  28,
+						height: 45
+					}
+				});
+			}
 		}
+
 
 		if (markers.length == 0) {
 			var centerpoint = new google.maps.LatLng(49.240021, -123.091008);
