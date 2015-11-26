@@ -2,6 +2,7 @@ var currentMarker;
 var currentData;
 var resultClicked = false;
 var userId
+var savedMeterId = -1;
 
 $(function() {
 	$('#back-to-results').click(returnResults);
@@ -17,7 +18,13 @@ $(function() {
 	$('#mark-occupied').click(function() {
 		$('#save-meter-modal').modal();
 	})
+	$('#see-occupied').click(seeOccupied);
+	setSeeOccupiedButton();
 });
+
+function setSeeOccupiedButton() {
+	$('#see-occupied').prop('disabled', savedMeterId <= 0);
+}
 
 function displayAlert(element, type, text) {
 	var childAlert = $(element + ' > .alert:first');
@@ -143,8 +150,8 @@ function displayInfo(data) {
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
-	if (data.is_occupied && userId) {
-		$.getJSON('/users/' + userId + '/parked_meters.json', checkParkedMeter);
+	if (data.is_occupied && savedMeterId == data.id) {
+		setOccupiedButtonToToggle();
 	} else {
 		setOccupiedButtonToDefault();
 	}
@@ -168,19 +175,32 @@ function setOccupiedButtonToDefault() {
 	});
 }
 
-function checkParkedMeter(data) {
-	if (data.parking_meter_id == data.id) {
-		$('#mark-occupied').prop('disabled', false);
-		$('#mark-occupied').unbind('click');
-		$('#mark-occupied').click(unoccupy);
-	} else {
-		setOccupiedButtonToDefault();
-	}
+function setOccupiedButtonToToggle(data) {
+	$('#mark-occupied').prop('disabled', false);
+	$('#mark-occupied').unbind('click');
+	$('#mark-occupied').click(unoccupy);
 }
 
 function unoccupy() {
-	updateTag('occupied');
-	setOccupiedButtonToDefault();
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	$.ajax({
+		data: { parked_meter: {} },
+		method: 'PATCH',
+		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
+		success: function() {
+			updateTag('occupied');
+			savedMeterId = -1;
+			setSeeOccupiedButton();
+			setOccupiedButtonToDefault();
+		}
+	})
 }
 
 function addRecent(id) {
@@ -229,7 +249,7 @@ function updateTag(changedType) {
 	$.ajax({
 		data: meterObject,
 		method: 'PATCH',
-		url: '/update_meter'
+		url: '/update_meter.json'
 	});
 
 }
@@ -313,12 +333,31 @@ function saveMeter() {
 		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
 		success: function() {
 			updateTag('occupied');
+			savedMeterId = currentData.id;
+			setSeeOccupiedButton();
+			setOccupiedButtonToToggle();
 			displayAlert('#save-meter-modal-body', 'alert-success', 'Success');
 		}
 	})
 }
 
-	
+function seeOccupied() {
+	$.getJSON('/parking_meters/' + savedMeterId + '.json', function(data) {
+		window.location.href = makeSearchUrl(data.name);
+	});
+}
+
+function makeSearchUrl(name) {
+	var parser = document.createElement('a');
+	parser.href = window.location.href;
+	var url = parser.protocol + '//' + parser.hostname;
+	if (parser.port.length > 0) {
+		url = url + ':' + parser.port;
+	}
+	url = url + '/lat_lons?search=' + name;
+	return url;
+}
+
 function populateMap(handler, markers, coords, index) {
 	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
 
