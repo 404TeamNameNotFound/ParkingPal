@@ -15,18 +15,20 @@ module ParkingMetersHelper
 
 		places = doc.xpath('.//Placemark')
 		places.each do |meter|
-			temp_meter = ParkingMeter.new
-			meter.children.each do |node|
-				case node.node_name
-				when 'name'
-					temp_meter.name = node.text.to_i
-				when 'description'
-					parse_description(node, temp_meter)
-				when 'Point'
-					parse_point(node, temp_meter)
+			if meter.children.size == 9
+				temp_meter = ParkingMeter.new
+				meter.children.each do |node|
+					case node.node_name
+					when 'name'
+						temp_meter.name = node.text.to_i
+					when 'description'
+						parse_description(node, temp_meter)
+					when 'Point'
+						parse_point(node, temp_meter)
+					end
 				end
+				temp_meter.save
 			end
-			temp_meter.save
 		end
 	end
 
@@ -42,16 +44,16 @@ module ParkingMetersHelper
 			when "Time in Effect"
 				times = i.last.split(' TO ')
 				if times.length >= 2
-					temp_meter.start_time = Time.parse(times.first).seconds_since_midnight()
-					temp_meter.end_time = Time.parse(times.last).seconds_since_midnight()
+					temp_meter.start_time = Time.parse(times.first).seconds_since_midnight().to_i
+					temp_meter.end_time = Time.parse(times.last).seconds_since_midnight().to_i
 				else
 					times = i.last.split(/-/)
 					if times.length >= 2
-						temp_meter.start_time = Time.parse(times.first).seconds_since_midnight()
-						temp_meter.end_time = Time.parse(times.last).seconds_since_midnight()
+						temp_meter.start_time = Time.parse(times.first).seconds_since_midnight().to_i
+						temp_meter.end_time = Time.parse(times.last).seconds_since_midnight().to_i
 					else
-						temp_meter.start_time = Time.parse("0:00").seconds_since_midnight()
-						temp_meter.end_time = Time.parse(" 23:59:59.999999").seconds_since_midnight()
+						temp_meter.start_time = Time.parse("0:00").seconds_since_midnight().to_i
+						temp_meter.end_time = Time.parse(" 23:59:59.999999").seconds_since_midnight().to_i
 					end
 				end
 			end

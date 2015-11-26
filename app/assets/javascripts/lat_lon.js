@@ -3,7 +3,6 @@ var currentData;
 var resultClicked = false;
 var userId
 
-
 $(function() {
 	$('#back-to-results').click(returnResults);
 	// $('.list-group-item').click(function() {
@@ -38,33 +37,36 @@ function setMarkerSize(marker, size) {
 }
 
 function setMarkerColor(marker, broken, occupied) {
-	var color = "00FF00";
+	var color = "18bc9c";
 	if (broken){
-		color = "FF0000"
+		color = "e74c3c"
 	} else if (occupied){
-		color = "0000FF"
+		color = "3498db"
 	}
 
 	var icon = marker.getIcon();
 	icon.url = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|"+ color + "|000000";
 	marker.setIcon(icon);
+
+	markers[marker.index].picture.url = icon.url;
+	console.log(marker.index);
 }
 
-function createSearchResult(meter) {
-	return ('<button type="button" class="list-group-item"><b> Meter No. </b><span id="results-meter-id">' 
+function createSearchResult(meter, number) {
+	return ('<button type="button" class="list-group-item search-result-item"><b> '+ number +'. &emsp; Meter No. </b><span id="results-meter-id">' 
 		+ meter.serviceObject.meter_name + '</span></button>');
 }
 
 function bindResultToMarker($result, marker) {
 	$result.click(function() {
 		resultClicked = true;
-		handler.getMap().setZoom(16);
+		handler.getMap().setZoom(19);
 		marker.setMap(handler.getMap());
 		marker.panTo();
 		google.maps.event.trigger(marker.getServiceObject(), 'click');
 	})
 	$result.mouseover(function() {
-		setMarkerSize(marker.getServiceObject(), new google.maps.Size(28, 45));
+		setMarkerSize(marker.getServiceObject(), new google.maps.Size(34, 50));
 		marker.getServiceObject().setZIndex(google.maps.Marker.MAX_ZINDEX);
 	})
 	$result.mouseleave(function() {
@@ -74,14 +76,14 @@ function bindResultToMarker($result, marker) {
 	})
 }
 
-function populateSearchResults(markers) {
+function populateSearchResults(markers, index) {
 	console.log(markers)
 	if (markers.length == 0) {
 		var $empty = $('<div class="well">No meters to display.</div>');
 		$empty.appendTo('#search-results-list');
 	}
 	for (var i=0; i<markers.length; i++) {
-		var $result = $(createSearchResult(markers[i]));
+		var $result = $(createSearchResult(markers[i], index+i+1));
 		$result.appendTo('#search-results-list');
 		bindResultToMarker($result, markers[i]);
 	}
@@ -89,7 +91,7 @@ function populateSearchResults(markers) {
 
 function onMarkerClick(marker, event){
 	return function(event){
-		var selectedSize = new google.maps.Size(28, 45);
+		var selectedSize = new google.maps.Size(34, 50);
 		var regularSize = new google.maps.Size(21, 34);
 
 		if(currentMarker) {
@@ -101,6 +103,7 @@ function onMarkerClick(marker, event){
 		marker.setZIndex(google.maps.Marker.MAX_ZINDEX);
 
 		$.getJSON('/parking_meters/' + marker.meter_id + '.json', displayInfo);
+		console.log('click', marker);
 		currentMarker = marker;
 	}
 }
@@ -115,7 +118,7 @@ function toggleBrokenOccupiedLabels(broken, occupied) {
 	}
 
 	$('#meter-occupied').toggleClass('label-success', !occupied);
-	$('#meter-occupied').toggleClass('label-danger', occupied);
+	$('#meter-occupied').toggleClass('label-info', occupied);
 	if (occupied) {
 		$('#meter-occupied').text('Occupied');
 	} else {
@@ -133,11 +136,13 @@ function displayInfo(data) {
 
 	$('#meter-name').text(data.name);
 	$('#meter-price').text('$' + data.price);
-	$('#meter-max-time').text(data.max_time + ' hrs');
+	$('#meter-max-time').text(data.max_time == 0? "No Time Limit" : data.max_time + ' hrs');
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
+
+	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
 
 	$('#meter-details').show();
 
@@ -215,8 +220,8 @@ function createMeterObject(data) {
 
 function parseTime(time) {
 	var timeInMins = time / 60;
-	var hours = timeInMins / 60;
-	var mins = timeInMins % 60;
+	var hours = Math.floor(timeInMins / 60);
+	var mins = Math.floor(timeInMins % 60);
 	var hoursString = (hours < 10) ? ('0' + hours) : hours;
 	var minsString = (mins < 10) ? ('0' + mins) : mins;
 	return hoursString + ':' + minsString;
@@ -281,6 +286,54 @@ function saveMeter() {
 			displayAlert('#save-meter-modal-body', 'alert-success', 'Success');
 		}
 	})
+}
 
 	
+function populateMap(handler, markers, coords, index) {
+	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+
+		Gmaps.store = {}
+		Gmaps.store.markers = markers.map(function(m, i) {
+			marker = handler.addMarker(m);
+			marker.serviceObject.set('meter_id', m.meter_id);
+			marker.serviceObject.set('meter_name', m.meter_name);
+			marker.serviceObject.set('index', i+index);
+			return marker;
+		});
+
+		if (coords.length != 0) {
+			handler.addMarker({
+				lat: coords[0],
+				lng: coords[1],
+				picture: {
+					url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
+					width:  28,
+					height: 45
+				}
+			});
+		}
+
+		if (markers.length == 0) {
+			var centerpoint = new google.maps.LatLng(49.240021, -123.091008);
+			handler.map.centerOn(centerpoint);
+			handler.getMap().setZoom(12);
+		}
+
+		handler.bounds.extendWith(Gmaps.store.markers);
+		handler.fitMapToBounds();
+
+		for (var i = 0; i <  Gmaps.store.markers.length; ++i) {
+			var marker = Gmaps.store.markers[i];
+			google.maps.event.addListener(marker.serviceObject, 'click', onMarkerClick(marker.serviceObject, window.event));
+		}
+
+		populateSearchResults(Gmaps.store.markers, index);
+
+	});
+}
+
+function clearMapList(handler) {
+	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+	});
+	$('.search-result-item').remove()
 }

@@ -1,11 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  lat: 
-  lon: 
-  parking_meter_id: 
+ll_one:
+  lat: 0
+  lon: 0
+  parking_meter_id: pm_one
 
-two:
-  lat: 
-  lon: 
-  parking_meter_id: 
+ll_two:
+  lat: 1
+  lon: 1
+  parking_meter_id: pm_two
+
+ll_three:
+  lat: 2
+  lon: 2
+  parking_meter_id: pm_three
+
+ll_four:
+  lat: 3
+  lon: 3
+  parking_meter_id: pm_four

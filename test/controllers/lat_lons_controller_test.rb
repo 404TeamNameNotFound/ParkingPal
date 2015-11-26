@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LatLonsControllerTest < ActionController::TestCase
   setup do
-    @lat_lon = lat_lons(:one)
+    @lat_lon = lat_lons(:ll_one)
   end
 
   test "should get index" do
@@ -46,4 +46,5 @@ class LatLonsControllerTest < ActionController::TestCase
 
     assert_redirected_to lat_lons_path
   end
+
 end

@@ -3,11 +3,37 @@ class LatLonsController < ApplicationController
 
   before_action :set_lat_lon, only: [:show, :edit, :update, :destroy]
 
+
   # GET /lat_lons
   # GET /lat_lons.json
   def index
 
-    @lat_lons = LatLon.limit(100)
+    @lat_lons = LatLon.where(nil)
+
+    if params[:search].present?
+      @lat_lons = @lat_lons.search(params[:search])
+
+    elsif params[:radius].present?
+
+      if params[:current_location].present?
+        ll = request.location
+        @coords = [ll.latitude, ll.longitude]
+      elsif params[:location].present?
+        @coords = Geocoder.coordinates(params[:location])
+      end
+
+      @lat_lons = @lat_lons.within(params[:radius], :origin => @coords)
+
+      case params[:search_type]
+      when "cheapest"
+        @lat_lons = @lat_lons.order_by_cheapest.by_distance(:origin => @coords)
+      when "closest"
+        @lat_lons = @lat_lons.by_distance(:origin => @coords)
+      end
+
+    else
+      @lat_lons = LatLon.none
+    end
 
     @lat_lons = @lat_lons.no_broken if params[:no_broken].present?
     @lat_lons = @lat_lons.no_occupied if params[:no_occupied].present?
@@ -17,11 +43,12 @@ class LatLonsController < ApplicationController
       marker.lat lat_lon.lat
       marker.lng lat_lon.lon
       meter = lat_lon.parking_meter
-      color = "00FF00"
+
+      color = "18bc9c"
       if meter.is_broken
-        color = "FF0000"
+        color = "e74c3c"
       elsif meter.is_occupied
-        color = "0000FF"
+        color = "3498db"
       end
       marker.picture({
        :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|" + color + "|000000", 
@@ -30,7 +57,9 @@ class LatLonsController < ApplicationController
        })
       marker.json({ :meter_id => meter.id, :meter_name => meter.name })
     end
+
   end
+
 
   # GET /lat_lons/1
   # GET /lat_lons/1.json
@@ -96,4 +125,6 @@ class LatLonsController < ApplicationController
     def lat_lon_params
       params.require(:lat_lon).permit(:lat, :lon, :parking_meter_id)
     end
-end
+  end
+
+

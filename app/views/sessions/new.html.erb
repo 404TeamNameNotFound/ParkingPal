@@ -1,16 +1,32 @@
 <div class="login">
   <div class="container">
-    <div class="form">
+    <div class="row">
+    <div class="page-header col-sm-offset-2 col-sm-9">
+          <h1>Log In:</h1>
+        </div>
+      </div>
 
-      <h1>Log in</h1>
-      <p id="notice"><%= notice %></p>
-
-      <%= form_for(:session, url: login_path) do |f| %>
-          <%= f.email_field :email, :placeholder => "Email" %>
-          <%= f.password_field :password, :placeholder => "Password" %>
-          <%= f.submit "Log in", class: "btn-submit" %>
-      <% end %>
-
-    </div>
+    <form action="/login" method="post" class="form-horizontal">
+      <%= token_tag %>
+      <div class="form-group">
+        <p class="help-block col-sm-offset-2 col-sm-6" ><%= notice %></p>
+      </div>
+      <div class="form-group">
+        <label for="session_email" class="col-sm-3 control-label">First Name</label>
+        <div class="col-sm-6">
+          <input type="email" class="form-control" id="session_email" name="session[email]" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="session_password" class="col-sm-3 control-label">Password</label>
+        <div class="col-sm-6">
+          <input type="password" class="form-control" id="session_password" name="session[password]" placeholder="Password">
+        </div>
+      </div>
+      <div class="col-sm-offset-3 col-sm-6">
+        <button type="submit" name="commit" class="btn btn-default">Login</button>
+      </div>
+    </form>
   </div>
+</div>
 </div>
