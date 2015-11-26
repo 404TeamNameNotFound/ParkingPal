@@ -4,7 +4,8 @@ class ParkedMetersController < ApplicationController
   # GET /parked_meters
   # GET /parked_meters.json
   def index
-    @parked_meters = @user.parked_meter.all
+    @user = User.find(params[:user_id])
+    @parked_meter = @user.parked_meter
   end
 
   # GET /parked_meters/1

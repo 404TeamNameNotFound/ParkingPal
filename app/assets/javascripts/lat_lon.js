@@ -14,6 +14,9 @@ $(function() {
 		e.stopImmediatePropagation(); // stop from firing twice
 		saveMeter();
 	});
+	$('#mark-occupied').click(function() {
+		$('#save-meter-modal').modal();
+	})
 });
 
 function displayAlert(element, type, text) {
@@ -140,6 +143,12 @@ function displayInfo(data) {
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
+	if (data.is_occupied && userId) {
+		$.getJSON('/users/' + userId + '/parked_meters.json', checkParkedMeter);
+	} else {
+		setOccupiedButtonToDefault();
+	}
+
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
 	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
@@ -149,6 +158,29 @@ function displayInfo(data) {
 	if (userId) {
 		addRecent(data.id);
 	}
+}
+
+function setOccupiedButtonToDefault() {
+	$('#mark-occupied').prop('disabled', currentData.is_occupied);
+	$('#mark-occupied').unbind('click');
+	$('#mark-occupied').click(function() {
+		$('#save-meter-modal').modal();
+	});
+}
+
+function checkParkedMeter(data) {
+	if (data.parking_meter_id == data.id) {
+		$('#mark-occupied').prop('disabled', false);
+		$('#mark-occupied').unbind('click');
+		$('#mark-occupied').click(unoccupy);
+	} else {
+		setOccupiedButtonToDefault();
+	}
+}
+
+function unoccupy() {
+	updateTag('occupied');
+	setOccupiedButtonToDefault();
 }
 
 function addRecent(id) {
@@ -274,8 +306,6 @@ function saveMeter() {
 			xhr.setRequestHeader( 'X-CSRF-Token', token );
 		}
 	});
-
-	// var userId = <%= current_user.id %>
 
 	$.ajax({
 		data: { parked_meter: {time_left: currentTime.getTime(), parking_meter_id: currentData.id} },
