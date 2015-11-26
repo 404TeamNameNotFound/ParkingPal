@@ -24,11 +24,11 @@ ActiveRecord::Schema.define(version: 20151107234249) do
   add_index "lat_lons", ["parking_meter_id"], name: "index_lat_lons_on_parking_meter_id"
 
   create_table "parking_meters", force: :cascade do |t|
-    t.integer  "name"
-    t.float    "price"
-    t.float    "max_time"
-    t.integer  "start_time"
-    t.integer  "end_time"
+    t.integer  "name",        default: 0
+    t.float    "price",       default: 0.0
+    t.float    "max_time",    default: 0.0
+    t.integer  "start_time",  default: 0
+    t.integer  "end_time",    default: 86399
     t.boolean  "is_broken",   default: false
     t.boolean  "is_occupied", default: false
     t.datetime "created_at",                  null: false
