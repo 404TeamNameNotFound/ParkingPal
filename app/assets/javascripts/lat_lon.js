@@ -16,6 +16,10 @@ $(function() {
 		saveMeter();
 	});
 	$('#mark-occupied').click(function() {
+		var childAlert = $('#save-meter-modal-body > .alert:first');
+		if (childAlert.length > 0) {
+			childAlert.remove();
+		}
 		$('#save-meter-modal').modal();
 	})
 	$('#see-occupied').click(seeOccupied);
@@ -171,6 +175,10 @@ function setOccupiedButtonToDefault() {
 	$('#mark-occupied').prop('disabled', currentData.is_occupied);
 	$('#mark-occupied').unbind('click');
 	$('#mark-occupied').click(function() {
+		var childAlert = $('#save-meter-modal-body > .alert:first');
+		if (childAlert.length > 0) {
+			childAlert.remove();
+		}
 		$('#save-meter-modal').modal();
 	});
 }
@@ -195,7 +203,7 @@ function unoccupy() {
 		method: 'PATCH',
 		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
 		success: function() {
-			updateTag('occupied');
+			updateTag('occupied', false);
 			savedMeterId = -1;
 			setSeeOccupiedButton();
 			setOccupiedButtonToDefault();
@@ -219,16 +227,24 @@ function addRecent(id) {
 	});
 }
 
-function updateTag(changedType) {
+function updateTag(changedType, newValue) {
 	if (!currentData){
 		return
 	}
 
 	if (changedType == 'broken') {
-		currentData.is_broken = !currentData.is_broken;
+		if (newValue !== undefined) {
+			currentData.is_broken = newValue;
+		} else {
+			currentData.is_broken = !currentData.is_broken;
+		}
 		var meterObject = createMeterObject(currentData);
 	} else if (changedType == 'occupied') {
-		currentData.is_occupied = !currentData.is_occupied;
+		if (newValue !== undefined) {
+			currentData.is_occupied = newValue;
+		} else {
+			currentData.is_occupied = !currentData.is_occupied;
+		}
 		var meterObject = createMeterObject(currentData);
 	} else return;
 
@@ -297,6 +313,10 @@ function floatHoursToMins(max_time) {
 }
 
 function saveMeter() {
+	if (currentData.is_occupied) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', 'This meter is already occupied.');
+		return;
+	}
 	var hours = parseInt($('#save-meter-hours').val());
 	var minutes = parseInt($('#save-meter-minutes').val());
 
@@ -332,7 +352,7 @@ function saveMeter() {
 		method: 'PATCH',
 		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
 		success: function() {
-			updateTag('occupied');
+			updateTag('occupied', true);
 			savedMeterId = currentData.id;
 			setSeeOccupiedButton();
 			setOccupiedButtonToToggle();

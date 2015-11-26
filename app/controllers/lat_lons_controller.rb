@@ -38,7 +38,7 @@ class LatLonsController < ApplicationController
       when "optimal"
         @lat_lons = @lat_lons.sort_by{ |l| l.distance_to(@coords)*params[:price].to_f + l.parking_meter.price}
       end
-    elsif params[:recents].present?
+    elsif params[:recents].present? || !session[:user_id].nil?
       recent_names = User.find(session[:user_id]).get_recents
       arr = Array.new
       recent_names.each { |n| arr = arr + @lat_lons.search(n)}
