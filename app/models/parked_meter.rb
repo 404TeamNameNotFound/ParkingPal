@@ -5,13 +5,17 @@ class ParkedMeter < ActiveRecord::Base
   def reset
   	meter = ParkingMeter.find(self.parking_meter_id)
   	if meter.unoccupy
-	  	self.time_left = nil
-	  	self.parking_meter_id = nil
-	  	if self.save
-	  		puts 'Reset successful.'
-	  	else
-	  		puts 'Reset failed.'
-	  	end
+	  	self.set_attrs_to_nil
 	  end
+  end
+
+  def set_attrs_to_nil
+    self.time_left = nil
+    self.parking_meter_id = nil
+    if self.save
+      puts 'Reset successful.'
+    else
+      puts 'Reset failed.'
+    end
   end
 end
