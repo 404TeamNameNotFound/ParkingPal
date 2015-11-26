@@ -7,6 +7,9 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_digest
       t.string :role
 
+      t.references :parked_meter, index: true, foreign_key: true
+      t.references :parking_meter, index: true, foreign_key: true
+
       t.timestamps
     end
   end

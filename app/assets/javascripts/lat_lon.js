@@ -1,15 +1,43 @@
 var currentMarker;
 var currentData;
 var resultClicked = false;
+var userId
+var savedMeterId = -1;
 
 $(function() {
 	$('#back-to-results').click(returnResults);
-	$('.list-group-item').click(function() {
-		var id = $(this).find('#results-meter-id').text();
-		console.log(id);
-		$.getJSON('/parking_meters/' + id + '.json', displayInfo);
+	// $('.list-group-item').click(function() {
+	// 	var id = $(this).find('#results-meter-id').text();
+	// 	console.log(id);
+	// 	$.getJSON('/parking_meters/' + id + '.json', displayInfo);
+	// })
+	$('#save-meter').click(function(e) {
+		e.stopImmediatePropagation(); // stop from firing twice
+		saveMeter();
+	});
+	$('#mark-occupied').click(function() {
+		$('#save-meter-modal').modal();
 	})
+	$('#see-occupied').click(seeOccupied);
+	setSeeOccupiedButton();
 });
+
+function setSeeOccupiedButton() {
+	$('#see-occupied').prop('disabled', savedMeterId <= 0);
+}
+
+function displayAlert(element, type, text) {
+	var childAlert = $(element + ' > .alert:first');
+	if (childAlert.length > 0) {
+		if (childAlert.hasClass(type)) {
+			childAlert.text(text);
+			return;
+		}
+		childAlert.remove();
+	}
+	var alert = '<div class="alert ' + type + '" role="alert">' + text + '</div>';
+	$(element).prepend(alert);
+}
 
 function setMarkerSize(marker, size) {
 	var icon = marker.getIcon();
@@ -122,11 +150,73 @@ function displayInfo(data) {
 	$('#meter-start-time').text(parseTime(data.start_time));
 	$('#meter-end-time').text(parseTime(data.end_time));
 
+	if (data.is_occupied && savedMeterId == data.id) {
+		setOccupiedButtonToToggle();
+	} else {
+		setOccupiedButtonToDefault();
+	}
+
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
 	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
 
 	$('#meter-details').show();
+
+	if (userId) {
+		addRecent(data.id);
+	}
+}
+
+function setOccupiedButtonToDefault() {
+	$('#mark-occupied').prop('disabled', currentData.is_occupied);
+	$('#mark-occupied').unbind('click');
+	$('#mark-occupied').click(function() {
+		$('#save-meter-modal').modal();
+	});
+}
+
+function setOccupiedButtonToToggle(data) {
+	$('#mark-occupied').prop('disabled', false);
+	$('#mark-occupied').unbind('click');
+	$('#mark-occupied').click(unoccupy);
+}
+
+function unoccupy() {
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	$.ajax({
+		data: { parked_meter: {} },
+		method: 'PATCH',
+		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
+		success: function() {
+			updateTag('occupied');
+			savedMeterId = -1;
+			setSeeOccupiedButton();
+			setOccupiedButtonToDefault();
+		}
+	})
+}
+
+function addRecent(id) {
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	$.ajax({
+		data: {},
+		method: 'PATCH',
+		url: '/add_recent/' + id + '.json'
+	});
 }
 
 function updateTag(changedType) {
@@ -159,7 +249,7 @@ function updateTag(changedType) {
 	$.ajax({
 		data: meterObject,
 		method: 'PATCH',
-		url: '/update_meter'
+		url: '/update_meter.json'
 	});
 
 }
@@ -196,6 +286,90 @@ function returnResults() {
 	setMarkerSize(currentMarker, new google.maps.Size(21, 34));
 }
 
+function floatHoursToMins(max_time) {
+	var str = max_time.toFixed(1);
+	var strArray = str.split(".");
+	var totalMins = strArray[0] * 60;
+	if (strArray.length > 1) {
+		totalMins += parseInt(strArray[1]);
+	}
+	return totalMins;
+}
+
+function saveMeter() {
+	var hours = parseInt($('#save-meter-hours').val());
+	var minutes = parseInt($('#save-meter-minutes').val());
+
+	if (isNaN(hours) || isNaN(minutes)) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', 'You must enter hours and minutes.');
+		return;
+	}
+
+	var totalMins = hours * 60 + minutes;
+	var maxTimeMins = floatHoursToMins(currentData.max_time);
+
+	if (totalMins > maxTimeMins) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', "Exceeds meter's max time (" + currentData.max_time + " hrs)");
+		return;
+	}
+
+	var currentTime = new Date();
+	currentTime.setHours(currentTime.getHours() + hours);
+	currentTime.setMinutes(currentTime.getMinutes() + minutes);
+
+	console.log(currentTime);
+
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	$.ajax({
+		data: { parked_meter: {time_left: currentTime.getTime(), parking_meter_id: currentData.id} },
+		method: 'PATCH',
+		url: '/users/' + userId + '/parked_meters/' + currentData.id + '.json',
+		success: function() {
+			updateTag('occupied');
+			savedMeterId = currentData.id;
+			setSeeOccupiedButton();
+			setOccupiedButtonToToggle();
+			displayAlert('#save-meter-modal-body', 'alert-success', 'Success');
+		}
+	})
+}
+
+function seeOccupied() {
+	$.getJSON('/parking_meters/' + savedMeterId + '.json', function(data) {
+		window.location.href = makeSearchUrl(data.name);
+	});
+}
+
+function makeSearchUrl(name) {
+	var parser = document.createElement('a');
+	parser.href = window.location.href;
+	var url = parser.protocol + '//' + parser.hostname;
+	if (parser.port.length > 0) {
+		url = url + ':' + parser.port;
+	}
+	url = url + '/lat_lons?search=' + name;
+	return url;
+}
+
+function displayOnMap(position){
+	var marker = handler.addMarker({
+		lat: position.coords.latitude,
+		lng: position.coords.longitude,
+		picture: {
+			url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
+			width:  28,
+			height: 45
+		}
+	});
+}
+
 function populateMap(handler, markers, coords, index) {
 	handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
 
@@ -223,17 +397,7 @@ function populateMap(handler, markers, coords, index) {
 			if(navigator.geolocation)
 				navigator.geolocation.getCurrentPosition(displayOnMap);
 
-			function displayOnMap(position){
-				var marker = handler.addMarker({
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-					picture: {
-						url: "http://chart.apis.google.com/chart?chst=d_map_pin_icon&chld=star|f39c12|000000",
-						width:  28,
-						height: 45
-					}
-				});
-			}
+			
 		}
 
 
