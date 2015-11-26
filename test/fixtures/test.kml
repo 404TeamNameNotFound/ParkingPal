@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<kml xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns="http://www.opengis.net/kml/2.2">
+	<Document>
+		<name>parking_meter_rates_and_time_limits</name>
+		<Folder id="kml_ft_Meter_Rates_and_Time_Limits">
+			<name>Meter_Rates_and_Time_Limits</name>
+			<Placemark id="1943">
+				<name>55555</name>
+				<description>&lt;br&gt;Meter Head Type: Single&lt;br&gt;Time Limit: -5 Hr&lt;br&gt;Rate: $3.00&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 9:00 AM TO 10:00 PM&lt;br&gt;Pay by Phone Number: 65192</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106670480264,49.2834540339571,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark id="1944">
+				<name>66666</name>
+				<description>&lt;br&gt;Meter Head Type: Twin&lt;br&gt;Time Limit: 2 Hr&lt;br&gt;Rate: -8&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 9:00 AM TO 10:00 PM&lt;br&gt;Pay by Phone Number: 62051</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106732972818,49.2833066622693,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark id="1945">
+				<name>77777</name>
+				<description>&lt;br&gt;Meter Head Type: Twin&lt;br&gt;Rate: $3.00&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 9:00 AM TO 10:00 PM&lt;br&gt;Pay by Phone Number: 62162</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106732972818,49.2833066622693,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark id="1946">
+				<name>88888</name>
+				<description>&lt;br&gt;Meter Head Type: Twin&lt;br&gt;Time Limit: 2 Hr&lt;br&gt;Rate: $3.00&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 12345679007 TO 12345679007&lt;br&gt;Pay by Phone Number: 61033</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+				</Point>
+			</Placemark>
+			<Placemark id="1947">
+				<name>99999</name>
+				<description></description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106780978344,49.283193863396</coordinates>
+					<coordinates>1,2,0 </coordinates>
+				</Point>
+			</Placemark>
+			<Placemark id="1948">
+				<name>00000</name>
+				<description>&lt;br&gt;Meter Head Type: Single&lt;br&gt;Time Limit: 2 Hr&lt;br&gt;Rate: $3.00&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 9:00 AM TO 10:00 PM&lt;br&gt;Pay by Phone Number: 62024</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106825932342</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark id="1949">
+				<description>&lt;br&gt;Meter Head Type: Single&lt;br&gt;Time Limit: 2 Hr&lt;br&gt;Rate: $3.00&lt;br&gt;Credit Card Enabled: CREDIT_CARD&lt;br&gt;Time in Effect: METER IN EFFECT: 9:00 AM TO 10:00 PM&lt;br&gt;Pay by Phone Number: 63123</description>
+				<styleUrl>#ParkingMeterStyler_KMLStyler_7</styleUrl>
+				<Point>
+					<coordinates>-123.106760403913,49.2827714869466,0 </coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document></kml>

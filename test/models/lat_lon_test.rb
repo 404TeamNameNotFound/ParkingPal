@@ -39,7 +39,6 @@ class LatLonTest < ActiveSupport::TestCase
   test "filter no after hours" do
   	assert_equal(LatLon.count, 4)
   	assert_equal(4, ParkingMeter.where("start_time < ? and end_time > ?", Time.parse("1:00 PM").seconds_since_midnight(), Time.parse("1:00 PM").seconds_since_midnight()).count)
-
   	assert_equal(1, ParkingMeter.where("start_time < ? and end_time > ?", Time.parse("1:00 AM").seconds_since_midnight(), Time.parse("1:00 AM").seconds_since_midnight()).count)
 	end
 

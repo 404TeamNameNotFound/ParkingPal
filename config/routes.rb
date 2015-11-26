@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
-  get 'update'  => 'parking_meters#parse'
+  post 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'
   patch 'update_meter' => 'parking_meters#update'
   patch 'add_recent/:meter_id' => 'users#add_recent'
