@@ -116,8 +116,10 @@
           window.savedMeterId = <%= current_user.parked_meter.parking_meter_id %>
         <% end %>
       <% end %>
-      <button type="button" class="btn btn-default btn-block" id="see-occupied">See Occupied Meter</button>
-      <button type="button" class="btn btn-default btn-block" id="see-recent">See Recent Meters</button>
+      <form>
+        <button type="button" class="btn btn-default btn-block" id="see-occupied">See Occupied Meter</button>
+        <button type="button" class="btn btn-default btn-block" id="see-recent" onclick="location.href='/lat_lons?recents=true';">See Recent Meters</button>
+      </form>
     <% end %>
 
     <div id="search-results">

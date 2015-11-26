@@ -30,7 +30,11 @@ class LatLonsController < ApplicationController
       when "closest"
         @lat_lons = @lat_lons.by_distance(:origin => @coords)
       end
-
+    elsif params[:recents].present?
+      recent_names = User.find(session[:user_id]).get_recents
+      arr = Array.new
+      recent_names.each { |n| arr = arr + @lat_lons.search(n)}
+      @lat_lons = arr
     else
       @lat_lons = LatLon.none
     end
