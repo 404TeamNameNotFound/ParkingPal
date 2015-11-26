@@ -13,4 +13,17 @@ class User < ActiveRecord::Base
   	recent_associations.map { |a| ParkingMeter.find(a.parking_meter_id).name }
   end
 
+  def reset_parked_meter
+  	now = Time.new
+  	expire_time = self.parked_meter.time_left
+  	puts 'Checking user #' + self.id.to_s
+  	if expire_time.nil?
+  		puts 'No parked meter for user #' + self.id.to_s
+  	elsif now.to_f > expire_time.to_f
+  		puts expire_time.to_s + ' is before now; resetting ParkedMeter object.'
+  		self.parked_meter.reset
+	else
+		puts expire_time.to_s + ' is after now; not resetting.'
+	end
+  end
 end
