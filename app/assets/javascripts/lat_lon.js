@@ -1,6 +1,7 @@
 var currentMarker;
 var currentData;
 var resultClicked = false;
+var userId
 
 
 $(function() {
@@ -139,6 +140,26 @@ function displayInfo(data) {
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
 	$('#meter-details').show();
+
+	if (userId) {
+		addRecent(data.id);
+	}
+}
+
+function addRecent(id) {
+	var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+
+	$.ajaxSetup( {
+		beforeSend: function ( xhr ) {
+			xhr.setRequestHeader( 'X-CSRF-Token', token );
+		}
+	});
+
+	$.ajax({
+		data: {},
+		method: 'PATCH',
+		url: '/add_recent/' + id + '.json'
+	});
 }
 
 function updateTag(changedType) {

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'
   patch 'update_meter' => 'parking_meters#update'
+  patch 'add_recent/:meter_id' => 'users#add_recent'
 
   resources :users do
     resources :parked_meters

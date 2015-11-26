@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120233718) do
+ActiveRecord::Schema.define(version: 20151126000842) do
 
   create_table "lat_lons", force: :cascade do |t|
     t.decimal  "lat",              precision: 15, scale: 10, default: 0.0
@@ -44,6 +44,13 @@ ActiveRecord::Schema.define(version: 20151120233718) do
     t.boolean  "is_occupied", default: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+  end
+
+  create_table "recent_meters", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "parking_meter_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade do |t|
