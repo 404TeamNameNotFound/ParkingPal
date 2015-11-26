@@ -96,7 +96,7 @@
       </div>
 
       <div id="search-results">
-        <h2>Results:</small></h2>
+        <h2>Results:</h2>
         <nav>
           <ul id="pager" class="pager">
             <li><a id="prev" >Previous</a></li>
@@ -110,6 +110,7 @@
       <div class="panel panel-default" id="meter-details">
         <div class="panel-body" >
           <button type="button" class="btn btn-default" id="back-to-results">Back</button>
+
 
           <div id="meter-heading">
             <h2>Meter No. <span id="meter-name">#</span></h1>
@@ -218,13 +219,17 @@
     }
   });
 
+  if ($('select[name=search_type]').val() == 'optimal') {
+      $('#price_group').show();
+    }
+
   $('select[name=search_type]').change(function () {
     if ($(this).val() == 'optimal') {
-        $('#price_group').show();
+      $('#price_group').show();
     } else {
-        $('#price_group').hide();
+      $('#price_group').hide();
     }
-});
+  });
 
   </script>
 
