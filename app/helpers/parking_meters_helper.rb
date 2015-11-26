@@ -113,6 +113,8 @@ module ParkingMetersHelper
 		ParkingMeter.delete_all
 		LatLon.delete_all
 		RecentMeter.delete_all
+		pms = ParkedMeter.all
+		pms.map { |pm| pm.set_attrs_to_nil }
 	end
 
 end
