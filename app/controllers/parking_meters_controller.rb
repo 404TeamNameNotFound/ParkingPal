@@ -8,13 +8,7 @@ class ParkingMetersController < ApplicationController
   # GET /parking_meters
   # GET /parking_meters.json
   def index
-    @parking_meters = ParkingMeter.limit(1)
-
-    @hash = Gmaps4rails.build_markers(@parking_meters) do |meter, marker|
-      marker.lat meter.lat_lon.lat
-      marker.lng meter.lat_lon.lon
-      marker.infowindow render_to_string(:partial => "infowindow", :locals => { :meter => meter})
-    end
+    @parking_meters = ParkingMeter.limit(10)
   end
 
   def parse
@@ -64,8 +58,8 @@ class ParkingMetersController < ApplicationController
   def update
     respond_to do |format|
       if @parking_meter.update(parking_meter_params)
-        format.html { render :show, status: :ok, location: @parking_meter }
-        # format.json { render :show, status: :ok, location: @parking_meter }
+        format.html { redirect_to @parking_meter, notice: 'ParkingMeter was successfully updated.' }
+        format.json { render :show, status: :ok, location: @parking_meter }
       else
         format.html { render :edit }
         format.json { render json: @parking_meter.errors, status: :unprocessable_entity }
@@ -91,6 +85,6 @@ class ParkingMetersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def parking_meter_params
-      params.require(:parking_meter).permit(:meter_id, :price, :max_time, :start_time, :end_time, :credit_card, :phone, :is_broken, :is_occupied)
+      params.require(:parking_meter).permit(:name, :price, :max_time, :start_time, :end_time, :is_broken, :is_occupied)
     end
 end

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Time left:</strong>
+  <%= @parked_meter.time_left %>
+</p>
+
+<p>
+  <strong>Parking meter:</strong>
+  <%= @parked_meter.parking_meter %>
+</p>
+
+<%= link_to 'Edit', edit_parked_meter_path(@parked_meter) %> |
+<%= link_to 'Back', parked_meters_path %>

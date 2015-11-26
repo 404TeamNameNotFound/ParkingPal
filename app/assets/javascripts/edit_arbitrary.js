@@ -11,8 +11,6 @@ $(function() {
 
 	function updateForm(data) {
 		coords = data.lat_lon;
-		// var startTime = parseTime(data.start_time);
-		// var endTime = parseTime(data.end_time);
 		$('#parking_meter_id').val(data.id);
 		$('#parking_meter_name').val(data.name);
 		$('#parking_meter_price').val(data.price);

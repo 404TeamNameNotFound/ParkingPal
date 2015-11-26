@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :parked_meters
   resources :users
   resources :parking_meters
   resources :lat_lons
@@ -15,9 +16,16 @@ Rails.application.routes.draw do
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
-  get 'update'  => 'parking_meters#parse'
+  post 'update'  => 'parking_meters#parse'
   get 'edit' => 'parking_meters#edit_arbitrary'
   patch 'update_meter' => 'parking_meters#update'
+  patch 'add_recent/:meter_id' => 'users#add_recent'
+
+  resources :users do
+    resources :parked_meters
+  end
+
+  # get 'user_meter' => ''
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

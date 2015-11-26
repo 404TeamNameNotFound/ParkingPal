@@ -1,0 +1,25 @@
+<%= form_for(@parked_meter) do |f| %>
+  <% if @parked_meter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@parked_meter.errors.count, "error") %> prohibited this parked_meter from being saved:</h2>
+
+      <ul>
+      <% @parked_meter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :time_left %><br>
+    <%= f.time_select :time_left %>
+  </div>
+  <div class="field">
+    <%= f.label :parking_meter_id %><br>
+    <%= f.text_field :parking_meter_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
