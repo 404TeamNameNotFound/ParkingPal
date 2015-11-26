@@ -42,7 +42,7 @@ function createSearchResult(meter, number) {
 function bindResultToMarker($result, marker) {
 	$result.click(function() {
 		resultClicked = true;
-		handler.getMap().setZoom(19);
+		handler.getMap().setZoom(17);
 		marker.setMap(handler.getMap());
 		marker.panTo();
 		google.maps.event.trigger(marker.getServiceObject(), 'click');
