@@ -26,7 +26,7 @@ class LatLon < ActiveRecord::Base
     end
 
     def self.no_after_hours
-        includes(:parking_meter).where("parking_meters.start_time < ? and parking_meters.end_time > ?", Time.parse("11:00 PM").seconds_since_midnight(), Time.parse("11:00 PM").seconds_since_midnight()).references(:parking_meters)
+        includes(:parking_meter).where("parking_meters.start_time < ? and parking_meters.end_time > ?", Time.now.seconds_since_midnight(), Time.now.seconds_since_midnight()).references(:parking_meters)
     end
 end
 
