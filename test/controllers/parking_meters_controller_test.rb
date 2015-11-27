@@ -11,21 +11,16 @@ class ParkingMetersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:parking_meters)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create parking_meter" do
     assert_difference('ParkingMeter.count') do
-      post :create, parking_meter: {
+      post(:create, {parking_meter: {
         name: @parking_meter.name,
         price: @parking_meter.price,
         max_time: @parking_meter.max_time,
         start_time: @parking_meter.start_time,
         end_time: @parking_meter.end_time,
         is_broken: @parking_meter.is_broken,
-        is_occupied: @parking_meter.is_occupied}
+        is_occupied: @parking_meter.is_occupied}}, {'user_id' => 1})
     end
 
     assert_redirected_to parking_meter_path(assigns(:parking_meter))
@@ -37,7 +32,7 @@ class ParkingMetersControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, id: @parking_meter
+    get(:edit, {id: @parking_meter}, {'user_id' => 1})
     assert_response :success
   end
 
@@ -56,7 +51,7 @@ class ParkingMetersControllerTest < ActionController::TestCase
 
   test "should destroy parking_meter" do
     assert_difference('ParkingMeter.count', -1) do
-      delete :destroy, id: @parking_meter
+      delete(:destroy, {id: @parking_meter}, {'user_id' => 1})
     end
 
     assert_redirected_to parking_meters_path
