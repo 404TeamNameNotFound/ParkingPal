@@ -363,7 +363,7 @@ function saveMeter() {
 			setOccupiedButtonToToggle();
 			displayAlert('#save-meter-modal-body', 'alert-success', 'Success');
 		}
-	})
+	});
 }
 
 function seeOccupied() {
