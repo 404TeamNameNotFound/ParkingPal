@@ -18,11 +18,11 @@ class LatLon < ActiveRecord::Base
 	end
 
 	def self.no_broken
-        includes(:parking_meter).where("parking_meters.is_broken = ?", true).references(:parking_meters)
+        includes(:parking_meter).where("parking_meters.is_broken = ?", false).references(:parking_meters)
     end
 
     def self.no_occupied
-        includes(:parking_meter).where("parking_meters.is_occupied = ?", true).references(:parking_meters)
+        includes(:parking_meter).where("parking_meters.is_occupied = ?", false).references(:parking_meters)
     end
 
     def self.no_after_hours

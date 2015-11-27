@@ -10,6 +10,7 @@ class UsersController < ApplicationController
       @user.parked_meter = ParkedMeter.new
       redirect_to '/'
     else
+      flash[:notice] = "Email already used. Try again!"
       redirect_to '/signup'
     end
   end
