@@ -27,7 +27,8 @@
 <nav class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/"><h4><img src="http://i65.tinypic.com/dqocah.jpg" alt="pacific-coast-2326.herokuapp.com" width="37" height="37"> ParkingPal</h4></a>
+      <!-- <a class="navbar-brand" href="/"><img src="http://i65.tinypic.com/dqocah.jpg" alt="pacific-coast-2326.herokuapp.com" width="64" height="64"></a> -->
+      <a class="navbar-brand" href="/">ParkingPal</a>
     </div>
     <ul class="nav navbar-nav navbar-right">
       <% if current_user %>
@@ -36,6 +37,7 @@
           <% if current_user && current_user.admin? %>
           <li><a href="" onclick="postUpdate()">Update</a></li>
               <li><a href="/edit">Edit</a></li>
+              <p class="navbar-text" style="color:#3899ff">Admin</p>
           <%end%>
       <% else %>
           <li><a href="/login">Login</a></li>

@@ -163,6 +163,7 @@ function displayInfo(data) {
 	toggleBrokenOccupiedLabels(data.is_broken, data.is_occupied);
 
 	$("#fb-share-link").attr("href", "https://www.facebook.com/sharer/sharer.php?u=https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
+	$("#tw-share-link").attr("href", "https://www.twitter.com/intent/tweet?text=Come check out this Parking Meter! https://pacific-coast-2326.herokuapp.com/lat_lons?search="+data.name);
 
 	$('#meter-details').show();
 
@@ -315,6 +316,10 @@ function floatHoursToMins(max_time) {
 function saveMeter() {
 	if (currentData.is_occupied) {
 		displayAlert('#save-meter-modal-body', 'alert-danger', 'This meter is already occupied.');
+		return;
+	}
+	if (savedMeterId > 0) {
+		displayAlert('#save-meter-modal-body', 'alert-danger', 'You have already occupied a meter. You cannot occupy another.');
 		return;
 	}
 	var hours = parseInt($('#save-meter-hours').val());

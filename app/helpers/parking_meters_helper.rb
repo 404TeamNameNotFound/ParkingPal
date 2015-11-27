@@ -4,34 +4,10 @@ require 'open-uri'
 module ParkingMetersHelper
 
 	def parse_test
-
-		doc = Nokogiri::XML(File.open("#{Rails.root}/test/fixtures/test.kml")) do |config|
-			config.strict.noblanks
-		end
-		doc.remove_namespaces!
-
-		places = doc.xpath('.//Placemark')
-		places.each do |meter|
-			if meter.children.size == 4
-				temp_meter = ParkingMeter.new
-				lat_lon = LatLon.new
-				lat_lon.parking_meter = temp_meter
-				meter.children.each do |node|
-					case node.node_name
-					when 'name'
-						temp_meter.name = node.text.to_i
-					when 'description'
-						parse_description(node, temp_meter)
-					when 'Point'
-						parse_point(node, temp_meter, lat_lon)
-					end
-				end
-				lat_lon.save
-				temp_meter.save
-			end
-		end
+		kml = File.open("#{Rails.root}/test/fixtures/test.kml")
+		parse_file(kml)
 	end
-	
+
 	def parse_parking_meters
 		url = 'http://data.vancouver.ca/download/kml/parking_meter_rates_and_time_limits.kmz'
 		zip_file = open(url)
@@ -39,6 +15,11 @@ module ParkingMetersHelper
 		unzip_folder = Zip::File.open(zip_file)
 		kml = unzip_folder.read('parking_meter_rates_and_time_limits.kml')
 
+		parse_file(kml)
+	end
+
+
+	def parse_file(kml)
 		doc = Nokogiri::XML(kml) do |config|
 			config.strict.noblanks
 		end
